@@ -218,9 +218,9 @@ def show_home():
     
     try:
         animations = [
-            {"key": "idea", "title": "创意孵化", "file": "Lottie/idea_animation.json"},
-            {"key": "development", "title": "快速开发", "file": "Lottie/dev_animation.json"},
-            {"key": "launch", "title": "产品发布", "file": "Lottie/launch_animation.json"}
+            {"key": "idea", "title": "创意孵化", "file": "Lottie\Animation-1727243760282.json"},
+            {"key": "development", "title": "快速开发", "file": "Lottie\Animation-1727243760282.json"},
+            {"key": "launch", "title": "产品发布", "file": "Lottie\Animation-1727243760282.json"}
         ]
         
         for col, anim in zip([col1, col2, col3], animations):
