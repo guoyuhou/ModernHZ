@@ -193,9 +193,19 @@ def show_home():
     </style>
     """, unsafe_allow_html=True)
 
-    # 增强3D全息投影效果
+    # 增强3D全息投影效果和左侧设计
     st.markdown("""
     <div class="page-container">
+        <div class="left-design">
+            <div class="floating-icon" style="--delay: 0s;">💡</div>
+            <div class="floating-icon" style="--delay: 2s;">🚀</div>
+            <div class="floating-icon" style="--delay: 4s;">🌟</div>
+            <div class="floating-icon" style="--delay: 6s;">🔬</div>
+            <div class="floating-text">创新</div>
+            <div class="floating-text">突破</div>
+            <div class="floating-text">梦想</div>
+            <div class="floating-text">科技</div>
+        </div>
         <div class="hologram-container">
             <div class="hologram">
                 <div class="hologram-text">Modern</div>
@@ -222,6 +232,40 @@ def show_home():
         align-items: center;
         height: 300px;
     }
+    .left-design {
+        width: 30%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .floating-icon {
+        position: absolute;
+        font-size: 24px;
+        animation: float 8s infinite ease-in-out;
+        animation-delay: var(--delay);
+    }
+    .floating-text {
+        position: absolute;
+        font-size: 18px;
+        color: #00cccc;
+        animation: fadeInOut 6s infinite ease-in-out;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(10deg); }
+    }
+    @keyframes fadeInOut {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 1; }
+    }
+    .floating-icon:nth-child(1) { top: 10%; left: 10%; }
+    .floating-icon:nth-child(2) { top: 30%; left: 30%; }
+    .floating-icon:nth-child(3) { top: 50%; left: 20%; }
+    .floating-icon:nth-child(4) { top: 70%; left: 40%; }
+    .floating-text:nth-child(5) { top: 20%; left: 50%; }
+    .floating-text:nth-child(6) { top: 40%; left: 60%; }
+    .floating-text:nth-child(7) { top: 60%; left: 40%; }
+    .floating-text:nth-child(8) { top: 80%; left: 70%; }
     @keyframes hologram {
         0% { transform: rotateX(0deg) rotateY(0deg); }
         100% { transform: rotateX(360deg) rotateY(360deg); }
@@ -263,7 +307,7 @@ def show_home():
         100% { transform: rotateX(360deg) rotateY(360deg); }
     }
     .cube-container {
-        width: 40%;
+        width: 30%;
         height: 100%;
         display: flex;
         justify-content: center;
