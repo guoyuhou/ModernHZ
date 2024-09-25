@@ -196,49 +196,28 @@ def show_home():
     # 增强3D全息投影效果
     st.markdown("""
     <div class="page-container">
-        <div class="effect-container">
-            <div class="hologram-container">
-                <div class="hologram">
-                    <div class="hologram-text">ModernHZ</div>
-                </div>
-            </div>
-            <div class="cube-container">
-                <div class="cube">
-                    <div class="face front">创新</div>
-                    <div class="face back">突破</div>
-                    <div class="face right">梦想</div>
-                    <div class="face left">未来</div>
-                    <div class="face top">科技</div>
-                    <div class="face bottom">进步</div>
-                </div>
+        <div class="hologram-container">
+            <div class="hologram">
+                <div class="hologram-text">ModernHZ</div>
             </div>
         </div>
-        <div class="effect-container">
-            <div class="particle-system">
-                <div class="particles"></div>
-            </div>
-            <div class="wave-container">
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
+        <div class="cube-container">
+            <div class="cube">
+                <div class="face front">创新</div>
+                <div class="face back">突破</div>
+                <div class="face right">梦想</div>
+                <div class="face left">未来</div>
+                <div class="face top">科技</div>
+                <div class="face bottom">进步</div>
             </div>
         </div>
     </div>
     <style>
     .page-container {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        height: 600px;
-    }
-    .effect-container {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
         height: 300px;
-        margin-bottom: 20px;
     }
     @keyframes hologram {
         0% { transform: rotateX(0deg) rotateY(0deg); }
@@ -246,8 +225,8 @@ def show_home():
     }
     .hologram-container {
         perspective: 1000px;
-        width: 200px;
-        height: 200px;
+        width: 40%;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -261,10 +240,10 @@ def show_home():
     }
     .hologram-text {
         position: absolute;
-        font-size: 24px;
-        color: #00ffff;
-        text-shadow: 0 0 10px #00ffff;
-        opacity: 0.9;
+        font-size: 28px;
+        color: #00cccc;
+        text-shadow: 0 0 10px #00cccc;
+        opacity: 0.8;
     }
     .hologram-text:nth-child(1) { transform: translateZ(100px); }
     .hologram-text:nth-child(2) { transform: rotateY(90deg) translateZ(100px); }
@@ -276,8 +255,11 @@ def show_home():
         100% { transform: rotateX(360deg) rotateY(360deg); }
     }
     .cube-container {
-        width: 200px;
-        height: 200px;
+        width: 40%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         perspective: 1000px;
     }
     .cube {
@@ -291,13 +273,13 @@ def show_home():
         position: absolute;
         width: 150px;
         height: 150px;
-        background: rgba(0, 255, 255, 0.2);
-        border: 2px solid #00ffff;
+        background: rgba(0, 204, 204, 0.2);
+        border: 2px solid #00cccc;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
-        color: #00ffff;
+        font-size: 20px;
+        color: #00cccc;
     }
     .front  { transform: rotateY(0deg) translateZ(75px); }
     .back   { transform: rotateY(180deg) translateZ(75px); }
@@ -305,53 +287,6 @@ def show_home():
     .left   { transform: rotateY(-90deg) translateZ(75px); }
     .top    { transform: rotateX(90deg) translateZ(75px); }
     .bottom { transform: rotateX(-90deg) translateZ(75px); }
-
-    .particle-system {
-        width: 200px;
-        height: 200px;
-        position: relative;
-        overflow: hidden;
-    }
-    .particles {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background-color: #00ffff;
-        box-shadow: 0 0 60px 30px #00ffff;
-        animation: particles 5s infinite;
-    }
-    @keyframes particles {
-        0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
-        100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
-    }
-
-    .wave-container {
-        width: 200px;
-        height: 200px;
-        position: relative;
-        overflow: hidden;
-    }
-    .wave {
-        position: absolute;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        border: 2px solid #00ffff;
-        animation: wave 4s infinite;
-    }
-    .wave:nth-child(2) {
-        animation-delay: -1s;
-    }
-    .wave:nth-child(3) {
-        animation-delay: -2s;
-    }
-    @keyframes wave {
-        0% { transform: scale(0); opacity: 1; }
-        100% { transform: scale(1); opacity: 0; }
-    }
     </style>
     """, unsafe_allow_html=True)
 
