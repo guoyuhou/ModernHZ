@@ -225,7 +225,7 @@ def show_home():
         }
     }
 
-    window.addEventListener('load', () => createParticles(50));
+    createParticles(50);
     </script>
     """, unsafe_allow_html=True)
     
