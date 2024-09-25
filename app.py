@@ -13,6 +13,9 @@ import pydeck as pdk
 from streamlit_webrtc import webrtc_streamer
 import av
 import time
+import altair as alt
+import numpy as np
+import openai
 
 # 设置页面配置
 st.set_page_config(page_title="ModernHZ团队", page_icon="🚀", layout="wide")
@@ -182,6 +185,26 @@ def show_home():
     
     st.markdown("<h3 class='section-header'>我们的愿景</h3>", unsafe_allow_html=True)
     st.video("video/elon_mask.mp4")
+    
+    st.markdown("<h3 class='section-header'>实时公司指标</h3>", unsafe_allow_html=True)
+    
+    # 模拟实时数据
+    df = pd.DataFrame({
+        'time': pd.date_range(start='2023-01-01', periods=100, freq='D'),
+        'users': np.random.randint(100, 1000, 100),
+        'revenue': np.random.randint(1000, 10000, 100)
+    })
+    
+    chart = alt.Chart(df).transform_fold(
+        ['users', 'revenue'],
+        as_=['metric', 'value']
+    ).mark_line().encode(
+        x='time:T',
+        y='value:Q',
+        color='metric:N'
+    ).interactive()
+    
+    st.altair_chart(chart, use_container_width=True)
 
 # 团队介绍
 def show_team():
@@ -372,9 +395,29 @@ def guess_number_game():
     number = random.randint(1, 100)
 
 def show_collaboration():
-    st.markdown("<h1 class='main-header'>实时协作</h1>", unsafe_allow_html=True)
-    st.markdown("<div class='content card'>在这里，团队成员可以进行实时视频会议和协作。</div>", unsafe_allow_html=True)
+    st.markdown("<h1 class='main-header'>团队协作工具</h1>", unsafe_allow_html=True)
     
+    tools = {
+        "视频会议": {"icon": "🎥", "description": "高清视频会议，支持屏幕共享"},
+        "实时文档": {"icon": "📄", "description": "多人同时编辑文档，实时同步"},
+        "项目管理": {"icon": "📊", "description": "任务分配、进度跟踪、里程碑管理"},
+        "头脑风暴": {"icon": "💡", "description": "虚拟白板，支持实时协作绘图"},
+        "代码仓库": {"icon": "💻", "description": "代码版本控制，支持代码审查"}
+    }
+    
+    cols = st.columns(3)
+    for idx, (tool, info) in enumerate(tools.items()):
+        with cols[idx % 3]:
+            st.markdown(f"""
+            <div class='card'>
+            <h3>{info['icon']} {tool}</h3>
+            <p>{info['description']}</p>
+            <button class='stButton'>开始使用</button>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    # 保留原有的视频会议功能
+    st.markdown("### 视频会议")
     webrtc_streamer(key="example", video_frame_callback=video_frame_callback)
 
 def video_frame_callback(frame):
@@ -387,8 +430,12 @@ def show_ai_assistant():
     
     user_input = st.text_input("输入你的问题：")
     if user_input:
-        response = "抱歉，AI助手功能暂时不可用。"
-        st.write("AI助手：", response)
+        response = openai.Completion.create(
+            engine="text-davinci-002",
+            prompt=f"Human: {user_input}\nAI:",
+            max_tokens=150
+        )
+        st.write("AI助手：", response.choices[0].text.strip())
 
 def show_dashboard():
     st.markdown("<h1 class='main-header'>实时数据仪表板</h1>", unsafe_allow_html=True)
@@ -475,6 +522,25 @@ def innovation_challenge():
     st.write("4. 关注用户需求，以解决问题为导向。")
     st.write("5. 拥抱失败，从错误中学习。")
 
+    # 添加创新项目展示
+    st.markdown("<h2 class='section-header'>创新项目展示</h2>", unsafe_allow_html=True)
+    projects = [
+        {"name": "AI助手", "description": "基于最新NLP技术的智能助手", "progress": 75},
+        {"name": "智能家居系统", "description": "整合IoT设备的智能家居解决方案", "progress": 60},
+        {"name": "AR教育平台", "description": "利用增强现实技术的互动教育平台", "progress": 40}
+    ]
+    
+    for project in projects:
+        st.markdown(f"""
+        <div class='card'>
+        <h3>{project['name']}</h3>
+        <p>{project['description']}</p>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {project['progress']}%;" aria-valuenow="{project['progress']}" aria-valuemin="0" aria-valuemax="100">{project['progress']}%</div>
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
 def change_theme():
     themes = {
         "默认": {"primary": "#1E90FF", "secondary": "#4682B4", "background": "#f0f2f6"},
@@ -496,32 +562,51 @@ def change_theme():
     </style>
     """, unsafe_allow_html=True)
 
+def welcome_screen():
+    if 'name' not in st.session_state:
+        st.session_state.name = ''
+    
+    if not st.session_state.name:
+        st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
+        name = st.text_input("请输入你的名字：")
+        if st.button("开始探索"):
+            st.session_state.name = name
+            st.experimental_rerun()
+    else:
+        st.markdown(f"<h1 class='main-header'>欢迎回来，{st.session_state.name}！</h1>", unsafe_allow_html=True)
+        st.markdown("<p class='sub-header'>准备好开始今天的创新之旅了吗？</p>", unsafe_allow_html=True)
+        if st.button("开始探索"):
+            st.experimental_rerun()
+
 # 主函数
 def main():
-    change_theme()  # 在侧边栏添加主题选择
-    page = sidebar()
-    
-    if page == "主页":
-        show_home()
-    elif page == "团队介绍":
-        show_team()
-    elif page == "项目展示":
-        show_projects()
-    elif page == "知识库":
-        show_knowledge_base()
-    elif page == "加入我们":
-        show_join()
-    elif page == "实时协作":
-        show_collaboration()
-    elif page == "AI助手":
-        show_ai_assistant()
-    elif page == "数据仪表板":
-        show_dashboard()
-    elif page == "创新挑战":
-        innovation_challenge()
-    
-    # 在每个页面底部添加猜数字游戏
-    guess_number_game()
+    if 'name' not in st.session_state or not st.session_state.name:
+        welcome_screen()
+    else:
+        change_theme()  # 在侧边栏添加主题选择
+        page = sidebar()
+        
+        if page == "主页":
+            show_home()
+        elif page == "团队介绍":
+            show_team()
+        elif page == "项目展示":
+            show_projects()
+        elif page == "知识库":
+            show_knowledge_base()
+        elif page == "加入我们":
+            show_join()
+        elif page == "实时协作":
+            show_collaboration()
+        elif page == "AI助手":
+            show_ai_assistant()
+        elif page == "数据仪表板":
+            show_dashboard()
+        elif page == "创新挑战":
+            innovation_challenge()
+        
+        # 在每个页面底部添加猜数字游戏
+        guess_number_game()
 
 if __name__ == "__main__":
     main()
