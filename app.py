@@ -189,142 +189,114 @@ def show_home():
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
     particlesJS('particles-js', {
-        particles: {
-            number: { value: 80, density: { enable: true, value_area: 800 } },
-            color: { value: '#ffffff' },
-            shape: { type: 'circle' },
-            opacity: { value: 0.5, random: false },
-            size: { value: 3, random: true },
-            line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
-            move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
-        },
-        interactivity: {
-            detect_on: 'canvas',
-            events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
-            modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
-        },
-        retina_detect: true
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#ffffff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5, random: false },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
     });
     </script>
     <style>
     #particles-js {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: -1;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      background-image: url('');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 50% 50%;
+      z-index: -1;
     }
     </style>
     """, unsafe_allow_html=True)
 
-    # 添加3D悬浮卡片效果
+    # 添加3D全息投影效果
     st.markdown("""
-    <div class="container">
-        <div class="card" style="--i:1">
-            <h3>创新</h3>
-            <p>突破界限，创造未来</p>
-        </div>
-        <div class="card" style="--i:2">
-            <h3>协作</h3>
-            <p>团结一心，共创佳绩</p>
-        </div>
-        <div class="card" style="--i:3">
-            <h3>卓越</h3>
-            <p>追求完美，永不止步</p>
-        </div>
-    </div>
-    <style>
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 50px;
-        perspective: 1000px;
-    }
-    .card {
-        position: relative;
-        width: 200px;
-        height: 250px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-right: 1px solid rgba(255, 255, 255, 0.2);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        transform-style: preserve-3d;
-        transform: rotateY(calc(var(--i) * 120deg)) translateZ(350px);
-        transition: 0.5s;
-    }
-    .card:hover {
-        transform: rotateY(calc(var(--i) * 120deg)) translateZ(400px);
-    }
-    .card h3 {
-        font-size: 1.5em;
-        color: #fff;
-        text-align: center;
-    }
-    .card p {
-        font-size: 1em;
-        color: #fff;
-        text-align: center;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    # 添加3D旋转立方体展示核心价值观
-    st.markdown("""
-    <div class="scene">
-      <div class="cube">
-        <div class="cube__face cube__face--front">创新</div>
-        <div class="cube__face cube__face--back">卓越</div>
-        <div class="cube__face cube__face--right">协作</div>
-        <div class="cube__face cube__face--left">激情</div>
-        <div class="cube__face cube__face--top">诚信</div>
-        <div class="cube__face cube__face--bottom">责任</div>
+    <div class="hologram-container">
+      <div class="hologram">
+        <div class="hologram-text">ModernHZ</div>
       </div>
     </div>
     <style>
-    .scene {
-      width: 150px;
-      height: 150px;
-      perspective: 450px;
-      margin: 30px auto;
+    @keyframes hologram {
+      0% { transform: rotateX(0deg) rotateY(0deg); }
+      100% { transform: rotateX(360deg) rotateY(360deg); }
     }
-    .cube {
-      width: 100%;
-      height: 100%;
+    .hologram-container {
+      perspective: 1000px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hologram {
+      width: 200px;
+      height: 200px;
       position: relative;
       transform-style: preserve-3d;
-      transform: translateZ(-75px);
-      transition: transform 1s;
-      animation: rotate 20s infinite linear;
+      animation: hologram 20s infinite linear;
     }
-    .cube__face {
+    .hologram-text {
       position: absolute;
-      width: 150px;
-      height: 150px;
-      border: 2px solid #fff;
-      line-height: 150px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #fff;
-      text-align: center;
+      font-size: 24px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      opacity: 0.7;
     }
-    .cube__face--front  { background: hsla(0, 100%, 50%, 0.7); transform: rotateY(0deg) translateZ(75px); }
-    .cube__face--right  { background: hsla(60, 100%, 50%, 0.7); transform: rotateY(90deg) translateZ(75px); }
-    .cube__face--back   { background: hsla(120, 100%, 50%, 0.7); transform: rotateY(180deg) translateZ(75px); }
-    .cube__face--left   { background: hsla(180, 100%, 50%, 0.7); transform: rotateY(-90deg) translateZ(75px); }
-    .cube__face--top    { background: hsla(240, 100%, 50%, 0.7); transform: rotateX(90deg) translateZ(75px); }
-    .cube__face--bottom { background: hsla(300, 100%, 50%, 0.7); transform: rotateX(-90deg) translateZ(75px); }
-    @keyframes rotate {
-      from { transform: translateZ(-75px) rotateX(0deg) rotateY(0deg); }
-      to { transform: translateZ(-75px) rotateX(360deg) rotateY(360deg); }
+    .hologram-text:nth-child(1) { transform: translateZ(100px); }
+    .hologram-text:nth-child(2) { transform: rotateY(90deg) translateZ(100px); }
+    .hologram-text:nth-child(3) { transform: rotateY(180deg) translateZ(100px); }
+    .hologram-text:nth-child(4) { transform: rotateY(-90deg) translateZ(100px); }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # 添加交互式创新思维导图
+    st.markdown("""
+    <div id="mindmap"></div>
+    <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.2/dist/vis-network.min.js"></script>
+    <script>
+    var nodes = new vis.DataSet([
+      {id: 1, label: 'ModernHZ'},
+      {id: 2, label: '创新'},
+      {id: 3, label: '协作'},
+      {id: 4, label: '卓越'},
+      {id: 5, label: '突破界限'},
+      {id: 6, label: '改变世界'},
+      {id: 7, label: '激发潜能'}
+    ]);
+    var edges = new vis.DataSet([
+      {from: 1, to: 2},
+      {from: 1, to: 3},
+      {from: 1, to: 4},
+      {from: 2, to: 5},
+      {from: 3, to: 6},
+      {from: 4, to: 7}
+    ]);
+    var container = document.getElementById('mindmap');
+    var data = {
+      nodes: nodes,
+      edges: edges
+    };
+    var options = {};
+    var network = new vis.Network(container, data, options);
+    </script>
+    <style>
+    #mindmap {
+      width: 100%;
+      height: 400px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -378,48 +350,6 @@ def show_home():
         "想象力比知识更重要。知识是有限的，而想象力概括着世界的一切，推动着进步，并且是知识进化的源泉。" —— 阿尔伯特·爱因斯坦
     </div>
     """, unsafe_allow_html=True)
-    
-    st.markdown("<h3 class='section-header'>实时公司指标</h3>", unsafe_allow_html=True)
-    
-    # 模拟实时数据
-    df = pd.DataFrame({
-        'time': pd.date_range(start='2023-01-01', periods=100, freq='D'),
-        'users': np.random.randint(100, 1000, 100),
-        'revenue': np.random.randint(1000, 10000, 100)
-    })
-    
-    chart = alt.Chart(df).transform_fold(
-        ['users', 'revenue'],
-        as_=['metric', 'value']
-    ).mark_line().encode(
-        x='time:T',
-        y='value:Q',
-        color='metric:N'
-    ).interactive()
-    
-    st.altair_chart(chart, use_container_width=True)
-
-    st.markdown("<h3 class='section-header'>我们的创新过程</h3>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns(3)
-    
-    try:
-        with col1:
-            lottie_idea = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_vnikrcia.json")
-            st_lottie(lottie_idea, key="idea")
-            st.write("创意孵化")
-        
-        with col2:
-            lottie_dev = load_lottieurl("https://assets3.lottiefiles.com/private_files/lf30_wqypnpu5.json")
-            st_lottie(lottie_dev, key="development")
-            st.write("快速开发")
-        
-        with col3:
-            lottie_launch = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_aao5ezov.json")
-            st_lottie(lottie_launch, key="launch")
-            st.write("产品发布")
-    except Exception as e:
-        st.error(f"无法加载动画: {str(e)}")
-        # 在这里可以添加一些替代内容，比如静态图片或文字描述
 
     # 添加创新故事展示
     st.markdown("<h3 class='section-header'>创新故事</h3>", unsafe_allow_html=True)
