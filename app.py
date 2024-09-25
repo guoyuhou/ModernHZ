@@ -178,188 +178,228 @@ def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
 
+
+
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
 def show_home():
-    st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
-    
-    # 添加动态粒子背景
     st.markdown("""
-    <div id="particles-js"></div>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-    particlesJS('particles-js', {
-      "particles": {
-        "number": {"value": 80, "density": {"enable": true, "value_area": 800}},
-        "color": {"value": "#ffffff"},
-        "shape": {"type": "circle", "stroke": {"width": 0, "color": "#000000"}, "polygon": {"nb_sides": 5}},
-        "opacity": {"value": 0.5, "random": false, "anim": {"enable": false, "speed": 1, "opacity_min": 0.1, "sync": false}},
-        "size": {"value": 3, "random": true, "anim": {"enable": false, "speed": 40, "size_min": 0.1, "sync": false}},
-        "line_linked": {"enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1},
-        "move": {"enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": {"enable": false, "rotateX": 600, "rotateY": 1200}}
-      },
-      "interactivity": {
-        "detect_on": "canvas",
-        "events": {
-          "onhover": {"enable": true, "mode": "repulse"},
-          "onclick": {"enable": true, "mode": "push"},
-          "resize": true
-        },
-        "modes": {
-          "grab": {"distance": 400, "line_linked": {"opacity": 1}},
-          "bubble": {"distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3},
-          "repulse": {"distance": 200, "duration": 0.4},
-          "push": {"particles_nb": 4},
-          "remove": {"particles_nb": 2}
-        }
-      },
-      "retina_detect": true
-    });
-    </script>
-    """, unsafe_allow_html=True)
-    
-    # 添加3D旋转立方体展示核心价值观
-    st.markdown("""
-    <div class="scene">
-      <div class="cube">
-        <div class="cube__face cube__face--front">创新</div>
-        <div class="cube__face cube__face--back">卓越</div>
-        <div class="cube__face cube__face--right">协作</div>
-        <div class="cube__face cube__face--left">激情</div>
-        <div class="cube__face cube__face--top">诚信</div>
-        <div class="cube__face cube__face--bottom">责任</div>
-      </div>
-    </div>
     <style>
-    .scene {
-      width: 200px;
-      height: 200px;
-      perspective: 600px;
-      margin: 40px auto;
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
+    
+    .main-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 4rem;
+        font-weight: 700;
+        color: #00BFFF;
+        text-align: center;
+        text-shadow: 0 0 10px rgba(0,191,255,0.5);
+        animation: glow 2s ease-in-out infinite alternate;
     }
-    .cube {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: translateZ(-100px);
-      transition: transform 1s;
-      animation: rotate 20s infinite linear;
+    
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 10px rgba(0,191,255,0.5);
+        }
+        to {
+            text-shadow: 0 0 20px rgba(0,191,255,0.8), 0 0 30px rgba(0,191,255,0.6), 0 0 40px rgba(0,191,255,0.4);
+        }
     }
-    .cube__face {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      border: 2px solid #fff;
-      line-height: 200px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #fff;
-      text-align: center;
+    
+    .sub-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.5rem;
+        color: #B0E0E6;
+        text-align: center;
+        margin-bottom: 2rem;
     }
-    .cube__face--front  { background: hsla(0, 100%, 50%, 0.7); transform: rotateY(0deg) translateZ(100px); }
-    .cube__face--right  { background: hsla(60, 100%, 50%, 0.7); transform: rotateY(90deg) translateZ(100px); }
-    .cube__face--back   { background: hsla(120, 100%, 50%, 0.7); transform: rotateY(180deg) translateZ(100px); }
-    .cube__face--left   { background: hsla(180, 100%, 50%, 0.7); transform: rotateY(-90deg) translateZ(100px); }
-    .cube__face--top    { background: hsla(240, 100%, 50%, 0.7); transform: rotateX(90deg) translateZ(100px); }
-    .cube__face--bottom { background: hsla(300, 100%, 50%, 0.7); transform: rotateX(-90deg) translateZ(100px); }
-    @keyframes rotate {
-      from { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg); }
-      to { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg); }
+    
+    .innovation-card {
+        background: rgba(255,255,255,0.1);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        transition: all 0.3s ease;
     }
+    
+    .innovation-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,191,255,0.2);
+    }
+    
+    .innovation-icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .innovation-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.5rem;
+        color: #00BFFF;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .innovation-description {
+        color: #B0E0E6;
+        text-align: center;
+    }
+    
+    .quote-container {
+        background: rgba(0,191,255,0.1);
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 2rem;
+        text-align: center;
+        font-style: italic;
+        color: #B0E0E6;
+    }
+    
+    .interactive-globe {
+        width: 100%;
+        height: 400px;
+    }
+    
     </style>
     """, unsafe_allow_html=True)
 
-    col1, col2 = st.columns([2, 1])
-    with col1:
-        st.markdown("""
-        <div class='content card'>
-        <h3>我们的使命</h3>
-        ModernHZ是一个致力于创新和独特产品开发的团队。我们的目标是:
-        <ol>
-            <li>做有意义的事情</li>
-            <li>创造创新性和与众不同的产品</li>
-            <li>吸引有同样梦想的人</li>
-        </ol>
+    st.markdown("<h1 class='main-title'>ModernHZ 创新实验室</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='sub-title'>突破界限，创造未来</p>", unsafe_allow_html=True)
+
+    # 创新领域展示
+    col1, col2, col3 = st.columns(3)
+    innovation_areas = [
+        {"icon": "🧠", "title": "人工智能", "description": "探索AI的无限可能，重塑世界的运作方式。"},
+        {"icon": "🌐", "title": "物联网", "description": "连接万物，智能化改变生活的每个角落。"},
+        {"icon": "🚀", "title": "太空技术", "description": "突破地球的束缚，开启人类文明的新篇章。"}
+    ]
+    
+    for col, area in zip([col1, col2, col3], innovation_areas):
+        with col:
+            st.markdown(f"""
+            <div class='innovation-card'>
+                <div class='innovation-icon'>{area['icon']}</div>
+                <div class='innovation-title'>{area['title']}</div>
+                <div class='innovation-description'>{area['description']}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    # 交互式地球仪
+    st.markdown("<h2 class='innovation-title'>全球创新网络</h2>", unsafe_allow_html=True)
+    fig = go.Figure(data=go.Scattergeo(
+        lon = [116.4, -74, 37.8, 151.2, 55.7],
+        lat = [39.9, 40.7, -37.8, -33.9, -37.8],
+        text = ['北京', '纽约', '墨尔本', '悉尼', '开普敦'],
+        mode = 'markers',
+        marker = dict(
+            size = 10,
+            color = 'rgb(0, 191, 255)',
+            line = dict(
+                width = 3,
+                color = 'rgba(0, 191, 255, 0.8)'
+            )
+        )
+    ))
+
+    fig.update_layout(
+        geo = dict(
+            projection_type = 'orthographic',
+            showland = True,
+            landcolor = 'rgb(30, 30, 30)',
+            countrycolor = 'rgb(50, 50, 50)',
+            showocean = True,
+            oceancolor = 'rgb(10, 10, 40)'
+        ),
+        height=500,
+        margin={"r":0,"t":0,"l":0,"b":0},
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    # 创新指数动画
+    st.markdown("<h2 class='innovation-title'>ModernHZ 创新指数</h2>", unsafe_allow_html=True)
+    innovation_index = random.randint(80, 100)
+    fig = go.Figure(go.Indicator(
+        mode = "gauge+number",
+        value = innovation_index,
+        domain = {'x': [0, 1], 'y': [0, 1]},
+        title = {'text': "创新指数", 'font': {'size': 24}},
+        gauge = {
+            'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "white"},
+            'bar': {'color': "rgba(0,191,255,0.8)"},
+            'bgcolor': "rgba(255,255,255,0.1)",
+            'borderwidth': 2,
+            'bordercolor': "white",
+            'steps': [
+                {'range': [0, 50], 'color': 'rgba(255,255,255,0.1)'},
+                {'range': [50, 80], 'color': 'rgba(0,191,255,0.3)'},
+                {'range': [80, 100], 'color': 'rgba(0,191,255,0.6)'}],
+            'threshold': {
+                'line': {'color': "red", 'width': 4},
+                'thickness': 0.75,
+                'value': 90}}))
+
+    fig.update_layout(paper_bgcolor = "rgba(0,0,0,0)", font = {'color': "white", 'family': "Arial"})
+    st.plotly_chart(fig, use_container_width=True)
+
+    # 创新项目展示
+    st.markdown("<h2 class='innovation-title'>突破性项目</h2>", unsafe_allow_html=True)
+    projects = [
+        {"name": "量子计算突破", "progress": 75},
+        {"name": "脑机接口研发", "progress": 60},
+        {"name": "可持续能源革命", "progress": 80},
+        {"name": "纳米医疗技术", "progress": 70}
+    ]
+    
+    for project in projects:
+        st.markdown(f"""
+        <div class='innovation-card'>
+            <div class='innovation-title'>{project['name']}</div>
+            <div class='progress-bar' style='background: linear-gradient(to right, rgba(0,191,255,0.8) {project['progress']}%, rgba(255,255,255,0.1) {project['progress']}%); height: 10px; border-radius: 5px;'></div>
+            <div style='text-align: right; color: #B0E0E6;'>{project['progress']}%</div>
         </div>
         """, unsafe_allow_html=True)
-    with col2:
-        lottie_coding = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_fcfjwiyb.json")
-        st_lottie(lottie_coding, height=300, key="coding")
-    
-    st.markdown("<h3 class='section-header'>我们的愿景</h3>", unsafe_allow_html=True)
-    
-    vision_col1, vision_col2, vision_col3 = st.columns(3)
-    
-    vision_animations = [
-        {"key": "breakthrough", "title": "突破界限", "url": "https://assets5.lottiefiles.com/packages/lf20_rnnlxazi.json"},
-        {"key": "change_world", "title": "改变世界", "url": "https://assets3.lottiefiles.com/private_files/lf30_bb9bkg1h.json"},
-        {"key": "potential", "title": "激发潜能", "url": "https://assets2.lottiefiles.com/packages/lf20_inuxiflu.json"}
+
+    # 动画展示
+    st_lottie(load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_ystsffqy.json"), height=300)
+
+    # 激励性名言
+    quotes = [
+        "创新是将想象力转化为现实的能力。 - 威廉·波拉德",
+        "创新区分领导者和跟随者。 - 史蒂夫·乔布斯",
+        "创新是一种生活方式，而不仅仅是一种思维方式。 - 迪恩·卡门",
+        "最大的风险是不承担任何风险。在一个飞速变化的世界里，唯一保证失败的策略就是不承担风险。 - 马克·扎克伯格"
     ]
-    for col, anim in zip([vision_col1, vision_col2, vision_col3], vision_animations):
-        with col:
-            lottie_anim = load_lottieurl(anim["url"])
-            if lottie_anim:
-                st_lottie(lottie_anim, key=anim["key"], height=150, quality="low", speed=1)
-                st.markdown(f"""
-                <div class='vision-card'>
-                    <h4>{'🚀' if anim['title'] == '突破界限' else '🌍' if anim['title'] == '改变世界' else '🌟'} {anim['title']}</h4>
-                    <p>{
-                        "我们致力于打破传统思维的束缚，探索未知领域，创造前所未有的可能性。" if anim['title'] == '突破界限' else
-                        "我们的目标是通过创新科技，解决人类面临的重大挑战，让世界变得更美好。" if anim['title'] == '改变世界' else
-                        "我们相信每个人都有无限潜力，我们的产品将帮助人们释放创造力，实现自我价值。"
-                    }</p>
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                st.warning(f"无法加载 {anim['title']} 动画")
-    
-    st.markdown("""
-    <div class='vision-quote'>
-        "想象力比知识更重要。知识是有限的，而想象力概括着世界的一切，推动着进步，并且是知识进化的源泉。" —— 阿尔伯特·爱因斯坦
+    st.markdown(f"""
+    <div class='quote-container'>
+        "{random.choice(quotes)}"
     </div>
     """, unsafe_allow_html=True)
-    
-    st.markdown("<h3 class='section-header'>实时公司指标</h3>", unsafe_allow_html=True)
-    
-    # 模拟实时数据
-    df = pd.DataFrame({
-        'time': pd.date_range(start='2023-01-01', periods=100, freq='D'),
-        'users': np.random.randint(100, 1000, 100),
-        'revenue': np.random.randint(1000, 10000, 100)
-    })
-    
-    chart = alt.Chart(df).transform_fold(
-        ['users', 'revenue'],
-        as_=['metric', 'value']
-    ).mark_line().encode(
-        x='time:T',
-        y='value:Q',
-        color='metric:N'
-    ).interactive()
-    
-    st.altair_chart(chart, use_container_width=True)
 
-    st.markdown("<h3 class='section-header'>我们的创新过程</h3>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns(3)
-    
-    try:
-        with col1:
-            lottie_idea = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_vnikrcia.json")
-            st_lottie(lottie_idea, key="idea")
-            st.write("创意孵化")
-        
-        with col2:
-            lottie_dev = load_lottieurl("https://assets3.lottiefiles.com/private_files/lf30_wqypnpu5.json")
-            st_lottie(lottie_dev, key="development")
-            st.write("快速开发")
-        
-        with col3:
-            lottie_launch = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_aao5ezov.json")
-            st_lottie(lottie_launch, key="launch")
-            st.write("产品发布")
-    except Exception as e:
-        st.error(f"无法加载动画: {str(e)}")
-        # 在这里可以添加一些替代内容，比如静态图片或文字描述
+    # 互动部分
+    st.markdown("<h2 class='innovation-title'>你的创新想法</h2>", unsafe_allow_html=True)
+    user_idea = st.text_area("分享你的创新想法，成为改变世界的一部分！")
+    if st.button("提交想法"):
+        st.success("感谢您的分享！您的想法已经被记录，并将成为我们创新的灵感来源。")
+        # 这里可以添加将用户想法保存到数据库的逻辑
+
+    # 实时创新数据流
+    st.markdown("<h2 class='innovation-title'>实时创新数据流</h2>", unsafe_allow_html=True)
+    chart_data = pd.DataFrame(
+        np.random.randn(20, 3),
+        columns=['创意生成', '专利申请', '技术突破'])
+
+    st.line_chart(chart_data)
+
 # 团队介绍
 def show_team():
     st.markdown("<h1 class='main-header'>团队介绍</h1>", unsafe_allow_html=True)
@@ -996,9 +1036,6 @@ def main():
             show_dashboard()
         elif page == "创新挑战":
             innovation_challenge()
-        
-        # 在每个页面底部添加猜数字游戏
-        guess_number_game()
 
 if __name__ == "__main__":
     main()
