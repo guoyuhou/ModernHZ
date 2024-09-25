@@ -195,11 +195,10 @@ def show_home():
     vision_col1, vision_col2, vision_col3 = st.columns(3)
     
     vision_animations = [
-        {"key": "breakthrough", "title": "突破界限", "url": "https://assets9.lottiefiles.com/packages/lf20_ksxvgzlm.json"},
-        {"key": "change_world", "title": "改变世界", "url": "https://assets1.lottiefiles.com/packages/lf20_q5pk6p1k.json"},
-        {"key": "potential", "title": "激发潜能", "url": "https://assets2.lottiefiles.com/packages/lf20_gnh15oqz.json"}
+        {"key": "breakthrough", "title": "突破界限", "url": "https://assets5.lottiefiles.com/packages/lf20_rnnlxazi.json"},
+        {"key": "change_world", "title": "改变世界", "url": "https://assets3.lottiefiles.com/private_files/lf30_bb9bkg1h.json"},
+        {"key": "potential", "title": "激发潜能", "url": "https://assets2.lottiefiles.com/packages/lf20_inuxiflu.json"}
     ]
-    
     for col, anim in zip([vision_col1, vision_col2, vision_col3], vision_animations):
         with col:
             lottie_anim = load_lottieurl(anim["url"])
