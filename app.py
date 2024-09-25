@@ -826,38 +826,63 @@ def change_theme():
         }}
     </style>
     """, unsafe_allow_html=True)
+
+import streamlit as st
+import random
+
 def welcome_screen():
     if 'name' not in st.session_state:
         st.session_state.name = ''
     
-    st.markdown("""
+    # 生成随机的"粒子"
+    particles = ''.join([f'<div class="particle" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh; animation-delay: -{random.random() * 5}s;"></div>' for _ in range(50)])
+    
+    st.markdown(f"""
     <style>
-    .welcome-header {
+    @keyframes float {{
+        0% {{ transform: translateY(0px) rotate(0deg); }}
+        50% {{ transform: translateY(-20px) rotate(180deg); }}
+        100% {{ transform: translateY(0px) rotate(360deg); }}
+    }}
+    .particle {{
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-color: rgba(76, 175, 80, 0.3);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: float 5s infinite;
+    }}
+    .welcome-header {{
         font-size: 3.5em;
         color: #4CAF50;
         text-align: center;
         margin-bottom: 30px;
-    }
-    .welcome-subheader {
+        position: relative;
+        z-index: 1;
+    }}
+    .welcome-subheader {{
         font-size: 1.8em;
         color: #333;
         text-align: center;
         margin-bottom: 50px;
-    }
-    .welcome-input {
-        max-width: 300px;
-        margin: 0 auto;
-    }
-    .welcome-button {
-        display: block;
-        margin: 30px auto;
-    }
-    .content-wrapper {
+        position: relative;
+        z-index: 1;
+    }}
+    .content-wrapper {{
         background-color: rgba(255, 255, 255, 0.8);
         padding: 20px;
         border-radius: 10px;
-    }
+        position: relative;
+        z-index: 1;
+    }}
+    .stApp {{
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }}
     </style>
+    <div class="particle-container">
+        {particles}
+    </div>
     """, unsafe_allow_html=True)
     
     st.markdown('<div class="content-wrapper">', unsafe_allow_html=True)
@@ -885,33 +910,7 @@ def welcome_screen():
                 st.experimental_rerun()
     
     st.markdown('</div>', unsafe_allow_html=True)
-    
-    # 使用Streamlit的动画效果替代JavaScript动画
-    st.balloons()
-    
-    # 添加一些简单的动画效果
-    for i in range(3):
-        st.empty()
-        time.sleep(0.5)
-        st.success("欢迎来到ModernHZ！")
-        time.sleep(0.5)
-        st.empty()
-    
-    # 添加一个简单的动画背景
-    st.markdown("""
-    <style>
-    @keyframes gradient {
-        0% {background-position: 0% 50%;}
-        50% {background-position: 100% 50%;}
-        100% {background-position: 0% 50%;}
-    }
-    .stApp {
-        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-        background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+
 # 主函数
 def main():
     if 'name' not in st.session_state or not st.session_state.name:
