@@ -133,92 +133,231 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 侧边栏：梦幻星空画布
+import streamlit as st
+from streamlit_lottie import st_lottie
+import requests
+from streamlit_option_menu import option_menu
+import random
+
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
 def sidebar():
     with st.sidebar:
         st.markdown("""
         <style>
         .sidebar .sidebar-content {
-            width: 280px !important;
-            background: linear-gradient(45deg, #1a237e, #4a148c);
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            background-image: linear-gradient(
+                to bottom right,
+                #1e3c72, #2a5298, #7F7FD5
+            );
+            color: #ffffff;
         }
-        .sidebar-star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 5s infinite;
+        .sidebar-content .block-container {
+            padding-top: 0;
         }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
+        .sidebar-content .stSelectbox > div > div {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: none;
         }
-        </style>
-        <div id="starry-sky"></div>
-        <script>
-        function createStars() {
-            const sky = document.getElementById('starry-sky');
-            for (let i = 0; i < 50; i++) {
-                const star = document.createElement('div');
-                star.className = 'sidebar-star';
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.width = `${Math.random() * 3}px`;
-                star.style.height = star.style.width;
-                star.style.animationDelay = `${Math.random() * 5}s`;
-                sky.appendChild(star);
-            }
+        .sidebar-content .stSelectbox > div > div > div {
+            color: #ffffff;
         }
-        createStars();
-        </script>
-        """, unsafe_allow_html=True)
-        
-        st.image("images/SpaceX-2.jpg", width=200, use_column_width=True)
-        
-        menu_options = [
-            {"name": "梦想起航", "icon": "🚀"},
-            {"name": "创意星球", "icon": "🌍"},
-            {"name": "创新银河", "icon": "🌌"},
-            {"name": "知识宇宙", "icon": "🔭"},
-            {"name": "加入星际", "icon": "👨‍🚀"},
-            {"name": "虚拟星尘", "icon": "✨"},
-            {"name": "AI星际助手", "icon": "🤖"},
-            {"name": "数据星图", "icon": "📊"},
-            {"name": "挑战黑洞", "icon": "🕳️"}
-        ]
-        
-        selected = st.radio("", options=[f"{option['icon']} {option['name']}" for option in menu_options], key="menu")
-        
-        st.markdown("""
-        <style>
-        .stRadio > label {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            margin: 5px 0;
+        .menu-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .stButton>button {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
             transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
         }
-        .stRadio > label:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .stButton>button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
             transform: translateX(5px);
         }
+        .inspiration-quote {
+            font-style: italic;
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
         </style>
         """, unsafe_allow_html=True)
-        
-        # 星际模式切换
-        if st.checkbox("星际旅行模式", key="space_mode"):
-            st.markdown("""
-            <style>
-            body {
-                background-image: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-                background-size: cover;
-                color: #ffffff;
+
+        st.markdown('<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">', unsafe_allow_html=True)
+
+        st.image("images/SpaceX-2.jpg", width=150)
+        st.markdown('<h1 class="menu-title">ModernHZ创意之旅</h1>', unsafe_allow_html=True)
+
+        # 添加Lottie动画
+        lottie_url = "https://assets5.lottiefiles.com/packages/lf20_ystsffqy.json"  # 创意灯泡动画
+        lottie_json = load_lottieurl(lottie_url)
+        st_lottie(lottie_json, height=150)
+
+        selected = option_menu(
+            menu_title=None,
+            options=["主页", "团队介绍", "项目展示", "知识库", "加入我们", "实时协作", "AI助手", "数据仪表板", "创新挑战"],
+            icons=["house", "people", "kanban", "book", "envelope", "camera-video", "robot", "bar-chart", "trophy"],
+            menu_icon="rocket",
+            default_index=0,
+            styles={
+                "container": {"padding": "0!important", "background-color": "transparent"},
+                "icon": {"color": "orange", "font-size": "14px"}, 
+                "nav-link": {"font-size": "14px", "text-align": "left", "margin":"0px", "--hover-color": "rgba(255, 255, 255, 0.2)"},
+                "nav-link-selected": {"background-color": "rgba(255, 255, 255, 0.2)"},
             }
-            </style>
-            """, unsafe_allow_html=True)
+        )
         
-    return selected.split(" ", 1)[1]  # 返回选中的选项名称
+        # 深色模式切换
+        if st.checkbox("深色模式", key="dark_mode"):
+            st.markdown("""
+            <script>
+                document.body.classList.add('dark');
+            </script>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <script>
+                document.body.classList.remove('dark');
+            </script>
+            """, unsafe_allow_html=True)
+
+        # 添加每日灵感语录
+        inspirations = [
+            "创意是智慧的火花，照亮未知的道路。",
+            "在平凡中发现非凡，在已知中探索未知。",
+            "创新不是目的地，而是一段永无止境的旅程。",
+            "让你的想象力自由翱翔，因为那里有无限可能。",
+            "每一个伟大的成就，都始于一个大胆的想法。"
+        ]
+        st.markdown(f'<p class="inspiration-quote">"{random.choice(inspirations)}"</p>', unsafe_allow_html=True)
+        
+    return selected
+
+# 添加动态背景
+st.markdown("""
+<div id="particles-js"></div>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+particlesJS('particles-js', {
+  "particles": {
+    "number": {
+      "value": 80,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "color": {
+      "value": "#ffffff"
+    },
+    "shape": {
+      "type": "circle",
+      "stroke": {
+        "width": 0,
+        "color": "#000000"
+      },
+    },
+    "opacity": {
+      "value": 0.5,
+      "random": false,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 3,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 40,
+        "size_min": 0.1,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#ffffff",
+      "opacity": 0.4,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 6,
+      "direction": "none",
+      "random": false,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "repulse"
+      },
+      "onclick": {
+        "enable": true,
+        "mode": "push"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 400,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 400,
+        "size": 40,
+        "duration": 2,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 200,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+});
+</script>
+""", unsafe_allow_html=True)
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
