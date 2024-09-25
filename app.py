@@ -261,45 +261,6 @@ def show_home():
     </style>
     """, unsafe_allow_html=True)
 
-    # 添加交互式创新思维导图
-    st.markdown("""
-    <div id="mindmap"></div>
-    <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.2/dist/vis-network.min.js"></script>
-    <script>
-    var nodes = new vis.DataSet([
-      {id: 1, label: 'ModernHZ'},
-      {id: 2, label: '创新'},
-      {id: 3, label: '协作'},
-      {id: 4, label: '卓越'},
-      {id: 5, label: '突破界限'},
-      {id: 6, label: '改变世界'},
-      {id: 7, label: '激发潜能'}
-    ]);
-    var edges = new vis.DataSet([
-      {from: 1, to: 2},
-      {from: 1, to: 3},
-      {from: 1, to: 4},
-      {from: 2, to: 5},
-      {from: 3, to: 6},
-      {from: 4, to: 7}
-    ]);
-    var container = document.getElementById('mindmap');
-    var data = {
-      nodes: nodes,
-      edges: edges
-    };
-    var options = {};
-    var network = new vis.Network(container, data, options);
-    </script>
-    <style>
-    #mindmap {
-      width: 100%;
-      height: 400px;
-      border: 1px solid #ccc;
-      background-color: #f9f9f9;
-    }
-    </style>
-    """, unsafe_allow_html=True)
 
     col1, col2 = st.columns([2, 1])
     with col1:
