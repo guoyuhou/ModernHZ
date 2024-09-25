@@ -368,9 +368,19 @@ def show_home():
         {"title": "当AI遇上艺术：跨界创新的奇妙火花", "image": "https://via.placeholder.com/300x200.png?text=Story+2"},
         {"title": "绿色科技：我们为地球做的那些事", "image": "https://via.placeholder.com/300x200.png?text=Story+3"}
     ]
-    story_html = """
+    
+    story_cards = ""
+    for story in stories:
+        story_cards += f"""
+            <div class="story-card">
+                <img src="{story['image']}" alt="{story['title']}">
+                <h4>{story['title']}</h4>
+            </div>
+        """
+    
+    st.markdown(f"""
     <div class="story-carousel">
-        {}
+        {story_cards}
     </div>
     <style>
     .story-carousel {{
@@ -399,13 +409,7 @@ def show_home():
         color: var(--primary-color);
     }}
     </style>
-    """.format(''.join([f"""
-        <div class="story-card">
-            <img src="{story['image']}" alt="{story['title']}">
-            <h4>{story['title']}</h4>
-        </div>
-    """ for story in stories]))
-    st.markdown(story_html, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
     # 添加互动式创新挑战
     st.markdown("<h3 class='section-header'>今日创新挑战</h3>", unsafe_allow_html=True)
@@ -462,9 +466,9 @@ def show_home():
     # 添加团队成员见解
     st.markdown("<h3 class='section-header'>团队洞察</h3>", unsafe_allow_html=True)
     insights = [
-        {"name": "张三", "role": "AI研究员", "insight": "未来的AI将不仅仅是工具，而是创新的伙伴。"},
-        {"name": "李四", "role": "产品设计师", "insight": "最好的设计是让复杂变简单，让困难变轻松。"},
-        {"name": "王五", "role": "创新战略师", "insight": "创新不是一蹴而就的，而是日积月累的结果。"}
+        {"name": "刘曜畅", "role": "AI研究员", "insight": "未来的AI将不仅仅是工具，而是创新的伙伴。"},
+        {"name": "王鸣乐", "role": "产品设计师", "insight": "最好的设计是让复杂变简单，让困难变轻松。"},
+        {"name": "王一帆", "role": "创新战略师", "insight": "创新不是一蹴而就的，而是日积月累的结果。"}
     ]
     for insight in insights:
         st.markdown(f"""
