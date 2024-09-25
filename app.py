@@ -187,20 +187,31 @@ def show_home():
     st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background: linear-gradient(45deg, #000428, #004e92);
         background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
+        animation: gradientShift 15s ease infinite;
+        position: relative;
+        overflow: hidden;
     }
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    .stApp::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: starryNight 20s linear infinite;
+    }
+    @keyframes starryNight {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
     </style>
     """, unsafe_allow_html=True)
@@ -208,26 +219,18 @@ def show_home():
     # 添加动态文字效果
     st.markdown("""
     <style>
-    @keyframes typing {
-        from { width: 0 }
-        to { width: 100% }
+    @keyframes glowPulse {
+        0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #00a8ff, 0 0 35px #00a8ff, 0 0 40px #00a8ff, 0 0 50px #00a8ff, 0 0 75px #00a8ff; }
+        50% { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 7px #fff, 0 0 10px #00a8ff, 0 0 17px #00a8ff, 0 0 20px #00a8ff, 0 0 25px #00a8ff, 0 0 37px #00a8ff; }
     }
-    .typing-effect {
-        overflow: hidden;
-        border-right: .15em solid orange;
-        white-space: nowrap;
-        margin: 0 auto;
-        letter-spacing: .15em;
-        animation: 
-            typing 3.5s steps(40, end),
-            blink-caret .75s step-end infinite;
-    }
-    @keyframes blink-caret {
-        from, to { border-color: transparent }
-        50% { border-color: orange; }
+    .glow-effect {
+        color: #fff;
+        font-size: 2em;
+        text-align: center;
+        animation: glowPulse 2s ease-in-out infinite;
     }
     </style>
-    <h3 class="typing-effect">欢迎来到创新无限的世界</h3>
+    <h3 class="glow-effect">欢迎来到创新无限的世界</h3>
     """, unsafe_allow_html=True)
 
     # 添加动态图标
