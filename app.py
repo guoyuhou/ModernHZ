@@ -218,7 +218,7 @@ def show_home():
     
     try:
         with col1:
-            lottie_idea = load_lottiefile("path/to/idea_animation.json")  # 替换为实际路径
+            lottie_idea = load_lottiefile("Lottie\Animation - 1727243760282.json")  # 替换为实际路径
             st_lottie(lottie_idea, key="idea")
             st.write("创意孵化")
         
