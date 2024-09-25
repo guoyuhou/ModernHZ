@@ -888,16 +888,6 @@ def welcome_screen():
         position: relative;
         z-index: 1;
     }}
-    .content-wrapper {{
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 40px;
-        border-radius: 20px;
-        position: relative;
-        z-index: 1;
-        box-shadow: 0 10px 20px rgba(65, 105, 225, 0.2);
-        max-width: 600px;
-        margin: 0 auto;
-    }}
     .stApp {{
         background: linear-gradient(135deg, #E6F0FF 0%, #B3D9FF 100%);
     }}
@@ -927,8 +917,6 @@ def welcome_screen():
     <div class="innovation-wave"></div>
     """, unsafe_allow_html=True)
     
-    st.markdown('<div class="content-wrapper">', unsafe_allow_html=True)
-    
     if not st.session_state.name:
         st.markdown("<h1 class='welcome-header'>创新无界</h1>", unsafe_allow_html=True)
         st.markdown("<p class='welcome-subheader'>在ModernHZ，每个想法都是新世界的起点</p>", unsafe_allow_html=True)
@@ -946,8 +934,6 @@ def welcome_screen():
         
         if st.button("继续你的创新之旅", key="start_explore"):
             st.experimental_rerun()
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 # 主函数
 def main():
     if 'name' not in st.session_state or not st.session_state.name:
