@@ -17,6 +17,9 @@ import altair as alt
 import numpy as np
 from streamlit_ace import st_ace
 from streamlit_agraph import agraph, Node, Edge, Config
+from streamlit_drawable_canvas import st_canvas
+import json
+from pathlib import Path
 
 # 设置页面配置
 st.set_page_config(page_title="ModernHZ团队", page_icon="🚀", layout="wide")
@@ -162,7 +165,10 @@ def sidebar():
         
     return selected
 
-# 主页
+def load_lottiefile(filepath: str):
+    with open(filepath, "r") as f:
+        return json.load(f)
+
 def show_home():
     st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
     st.markdown("<h2 class='sub-header'>Be creative, be at the frontier, and be different.</h2>", unsafe_allow_html=True)
@@ -210,17 +216,24 @@ def show_home():
     st.markdown("<h3 class='section-header'>我们的创新过程</h3>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     
-    with col1:
-        st_lottie("https://assets5.lottiefiles.com/packages/lf20_yd8hamad.json", key="idea")
-        st.write("创意孵化")
-    
-    with col2:
-        st_lottie("https://assets5.lottiefiles.com/packages/lf20_9wpyhdzo.json", key="development")
-        st.write("快速开发")
-    
-    with col3:
-        st_lottie("https://assets2.lottiefiles.com/packages/lf20_49rdyysj.json", key="launch")
-        st.write("产品发布")
+    try:
+        with col1:
+            lottie_idea = load_lottiefile("path/to/idea_animation.json")  # 替换为实际路径
+            st_lottie(lottie_idea, key="idea")
+            st.write("创意孵化")
+        
+        with col2:
+            lottie_dev = load_lottiefile("path/to/development_animation.json")  # 替换为实际路径
+            st_lottie(lottie_dev, key="development")
+            st.write("快速开发")
+        
+        with col3:
+            lottie_launch = load_lottiefile("path/to/launch_animation.json")  # 替换为实际路径
+            st_lottie(lottie_launch, key="launch")
+            st.write("产品发布")
+    except Exception as e:
+        st.error(f"无法加载动画: {str(e)}")
+        # 在这里可以添加一些替代内容，比如静态图片或文字描述
 
 # 团队介绍
 def show_team():
