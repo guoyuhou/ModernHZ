@@ -364,9 +364,9 @@ def show_home():
     # 添加创新故事轮播
     st.markdown("<h3 class='section-header'>创新故事</h3>", unsafe_allow_html=True)
     stories = [
-        {"title": "从0到1：我们如何颠覆传统行业", "image": "story1.jpg"},
-        {"title": "当AI遇上艺术：跨界创新的奇妙火花", "image": "story2.jpg"},
-        {"title": "绿色科技：我们为地球做的那些事", "image": "story3.jpg"}
+        {"title": "从0到1：我们如何颠覆传统行业", "image": "https://via.placeholder.com/300x200.png?text=Story+1"},
+        {"title": "当AI遇上艺术：跨界创新的奇妙火花", "image": "https://via.placeholder.com/300x200.png?text=Story+2"},
+        {"title": "绿色科技：我们为地球做的那些事", "image": "https://via.placeholder.com/300x200.png?text=Story+3"}
     ]
     story_html = """
     <div class="story-carousel">
