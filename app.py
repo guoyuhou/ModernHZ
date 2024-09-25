@@ -834,27 +834,55 @@ def welcome_screen():
     st.markdown("""
     <style>
     .welcome-header {
-        font-size: 3em;
+        font-size: 3.5em;
         color: #4CAF50;
         text-align: center;
         margin-bottom: 30px;
+        position: relative;
+        z-index: 1;
     }
     .welcome-subheader {
-        font-size: 1.5em;
+        font-size: 1.8em;
         color: #333;
         text-align: center;
         margin-bottom: 50px;
+        position: relative;
+        z-index: 1;
     }
     .welcome-input {
         max-width: 300px;
         margin: 0 auto;
+        position: relative;
+        z-index: 1;
     }
     .welcome-button {
         display: block;
         margin: 30px auto;
+        position: relative;
+        z-index: 1;
+    }
+    #tsparticles {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+    .content-wrapper {
+        position: relative;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
     }
     </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.min.js"></script>
+    <div id="tsparticles"></div>
     """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="content-wrapper">', unsafe_allow_html=True)
     
     if not st.session_state.name:
         st.markdown("<h1 class='welcome-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
@@ -878,10 +906,84 @@ def welcome_screen():
             if st.button("开始探索", key="start_explore"):
                 st.experimental_rerun()
     
-    # 添加一些动画效果
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # 添加粒子动画和其他动画效果
     st.markdown("""
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
+    tsParticles.load("tsparticles", {
+      fpsLimit: 60,
+      particles: {
+        number: {
+          value: 80,
+          density: {
+            enable: true,
+            value_area: 800
+          }
+        },
+        color: {
+          value: "#4CAF50"
+        },
+        shape: {
+          type: "circle"
+        },
+        opacity: {
+          value: 0.5,
+          random: true,
+          animation: {
+            enable: true,
+            speed: 1,
+            minimumValue: 0.1,
+            sync: false
+          }
+        },
+        size: {
+          value: 3,
+          random: true,
+          animation: {
+            enable: true,
+            speed: 2,
+            minimumValue: 0.1,
+            sync: false
+          }
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: "none",
+          random: false,
+          straight: false,
+          outModes: {
+            default: "out"
+          },
+        }
+      },
+      interactivity: {
+        detectsOn: "canvas",
+        events: {
+          onHover: {
+            enable: true,
+            mode: "repulse"
+          },
+          onClick: {
+            enable: true,
+            mode: "push"
+          },
+          resize: true
+        },
+        modes: {
+          repulse: {
+            distance: 100,
+            duration: 0.4
+          },
+          push: {
+            quantity: 4
+          }
+        }
+      },
+      detectRetina: true
+    });
+
     anime({
         targets: '.welcome-header',
         translateY: [-50, 0],
@@ -908,7 +1010,6 @@ def welcome_screen():
     });
     </script>
     """, unsafe_allow_html=True)
-
 # 主函数
 def main():
     if 'name' not in st.session_state or not st.session_state.name:
