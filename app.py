@@ -826,7 +826,6 @@ def change_theme():
         }}
     </style>
     """, unsafe_allow_html=True)
-
 def welcome_screen():
     if 'name' not in st.session_state:
         st.session_state.name = ''
@@ -838,48 +837,27 @@ def welcome_screen():
         color: #4CAF50;
         text-align: center;
         margin-bottom: 30px;
-        position: relative;
-        z-index: 1;
     }
     .welcome-subheader {
         font-size: 1.8em;
         color: #333;
         text-align: center;
         margin-bottom: 50px;
-        position: relative;
-        z-index: 1;
     }
     .welcome-input {
         max-width: 300px;
         margin: 0 auto;
-        position: relative;
-        z-index: 1;
     }
     .welcome-button {
         display: block;
         margin: 30px auto;
-        position: relative;
-        z-index: 1;
-    }
-    #tsparticles {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: 0;
     }
     .content-wrapper {
-        position: relative;
-        z-index: 1;
         background-color: rgba(255, 255, 255, 0.8);
         padding: 20px;
         border-radius: 10px;
     }
     </style>
-    
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.min.js"></script>
-    <div id="tsparticles"></div>
     """, unsafe_allow_html=True)
     
     st.markdown('<div class="content-wrapper">', unsafe_allow_html=True)
@@ -908,107 +886,31 @@ def welcome_screen():
     
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # 添加粒子动画和其他动画效果
+    # 使用Streamlit的动画效果替代JavaScript动画
+    st.balloons()
+    
+    # 添加一些简单的动画效果
+    for i in range(3):
+        st.empty()
+        time.sleep(0.5)
+        st.success("欢迎来到ModernHZ！")
+        time.sleep(0.5)
+        st.empty()
+    
+    # 添加一个简单的动画背景
     st.markdown("""
-    <script>
-    tsParticles.load("tsparticles", {
-      fpsLimit: 60,
-      particles: {
-        number: {
-          value: 80,
-          density: {
-            enable: true,
-            value_area: 800
-          }
-        },
-        color: {
-          value: "#4CAF50"
-        },
-        shape: {
-          type: "circle"
-        },
-        opacity: {
-          value: 0.5,
-          random: true,
-          animation: {
-            enable: true,
-            speed: 1,
-            minimumValue: 0.1,
-            sync: false
-          }
-        },
-        size: {
-          value: 3,
-          random: true,
-          animation: {
-            enable: true,
-            speed: 2,
-            minimumValue: 0.1,
-            sync: false
-          }
-        },
-        move: {
-          enable: true,
-          speed: 1,
-          direction: "none",
-          random: false,
-          straight: false,
-          outModes: {
-            default: "out"
-          },
-        }
-      },
-      interactivity: {
-        detectsOn: "canvas",
-        events: {
-          onHover: {
-            enable: true,
-            mode: "repulse"
-          },
-          onClick: {
-            enable: true,
-            mode: "push"
-          },
-          resize: true
-        },
-        modes: {
-          repulse: {
-            distance: 100,
-            duration: 0.4
-          },
-          push: {
-            quantity: 4
-          }
-        }
-      },
-      detectRetina: true
-    });
-
-    anime({
-        targets: '.welcome-header',
-        translateY: [-50, 0],
-        opacity: [0, 1],
-        easing: 'easeOutExpo',
-        duration: 1500,
-        delay: 300
-    });
-    anime({
-        targets: '.welcome-subheader',
-        translateY: [-30, 0],
-        opacity: [0, 1],
-        easing: 'easeOutExpo',
-        duration: 1500,
-        delay: 600
-    });
-    anime({
-        targets: '.welcome-input, .welcome-button',
-        translateY: [20, 0],
-        opacity: [0, 1],
-        easing: 'easeOutExpo',
-        duration: 1500,
-        delay: anime.stagger(200, {start: 900})
-    });
-    </script>
+    <style>
+    @keyframes gradient {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
+    }
+    .stApp {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+    }
+    </style>
     """, unsafe_allow_html=True)
 # 主函数
 def main():
