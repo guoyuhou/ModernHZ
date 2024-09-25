@@ -216,24 +216,20 @@ def show_home():
     st.markdown("<h3 class='section-header'>我们的创新过程</h3>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     
-    try:
-        animations = [
-            {"key": "idea", "title": "创意孵化", "file": "Lottie/Animation-1727243760282.json"},
-            {"key": "development", "title": "快速开发", "file": "Lottie/Animation-1727243760282.json"},
-            {"key": "launch", "title": "产品发布", "file": "Lottie/Animation-1727243760282.json"}
-        ]
-        
-        for col, anim in zip([col1, col2, col3], animations):
-            with col:
-                lottie_anim = load_lottiefile(anim["file"])
-                if lottie_anim:
-                    st_lottie(lottie_anim, key=anim["key"], height=200, quality="low", speed=1)
-                    st.markdown(f"<h4 style='text-align: center;'>{anim['title']}</h4>", unsafe_allow_html=True)
-                else:
-                    st.warning(f"无法加载 {anim['title']} 动画")
-    except Exception as e:
-        st.error(f"加载动画时出错: {str(e)}")
-        st.info("我们正在努力修复这个问题。请稍后再试。")
+    animations = [
+        {"key": "idea", "title": "创意孵化", "url": "https://assets9.lottiefiles.com/packages/lf20_ktwnwv5m.json"},
+        {"key": "development", "title": "快速开发", "url": "https://assets2.lottiefiles.com/packages/lf20_jtbfg2nb.json"},
+        {"key": "launch", "title": "产品发布", "url": "https://assets5.lottiefiles.com/packages/lf20_aao5ezgm.json"}
+    ]
+    
+    for col, anim in zip([col1, col2, col3], animations):
+        with col:
+            lottie_anim = load_lottieurl(anim["url"])
+            if lottie_anim:
+                st_lottie(lottie_anim, key=anim["key"], height=200, quality="low", speed=1)
+                st.markdown(f"<h4 style='text-align: center;'>{anim['title']}</h4>", unsafe_allow_html=True)
+            else:
+                st.warning(f"无法加载 {anim['title']} 动画")
 
 # 团队介绍
 def show_team():
