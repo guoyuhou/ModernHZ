@@ -231,40 +231,40 @@ def show_home():
     </div>
     <style>
     .scene {
-      width: 200px;
-      height: 200px;
-      perspective: 600px;
-      margin: 40px auto;
+      width: 150px;
+      height: 150px;
+      perspective: 450px;
+      margin: 30px auto;
     }
     .cube {
       width: 100%;
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transform: translateZ(-100px);
+      transform: translateZ(-75px);
       transition: transform 1s;
       animation: rotate 20s infinite linear;
     }
     .cube__face {
       position: absolute;
-      width: 200px;
-      height: 200px;
+      width: 150px;
+      height: 150px;
       border: 2px solid #fff;
-      line-height: 200px;
-      font-size: 24px;
+      line-height: 150px;
+      font-size: 18px;
       font-weight: bold;
       color: #fff;
       text-align: center;
     }
-    .cube__face--front  { background: hsla(0, 100%, 50%, 0.7); transform: rotateY(0deg) translateZ(100px); }
-    .cube__face--right  { background: hsla(60, 100%, 50%, 0.7); transform: rotateY(90deg) translateZ(100px); }
-    .cube__face--back   { background: hsla(120, 100%, 50%, 0.7); transform: rotateY(180deg) translateZ(100px); }
-    .cube__face--left   { background: hsla(180, 100%, 50%, 0.7); transform: rotateY(-90deg) translateZ(100px); }
-    .cube__face--top    { background: hsla(240, 100%, 50%, 0.7); transform: rotateX(90deg) translateZ(100px); }
-    .cube__face--bottom { background: hsla(300, 100%, 50%, 0.7); transform: rotateX(-90deg) translateZ(100px); }
+    .cube__face--front  { background: hsla(0, 100%, 50%, 0.7); transform: rotateY(0deg) translateZ(75px); }
+    .cube__face--right  { background: hsla(60, 100%, 50%, 0.7); transform: rotateY(90deg) translateZ(75px); }
+    .cube__face--back   { background: hsla(120, 100%, 50%, 0.7); transform: rotateY(180deg) translateZ(75px); }
+    .cube__face--left   { background: hsla(180, 100%, 50%, 0.7); transform: rotateY(-90deg) translateZ(75px); }
+    .cube__face--top    { background: hsla(240, 100%, 50%, 0.7); transform: rotateX(90deg) translateZ(75px); }
+    .cube__face--bottom { background: hsla(300, 100%, 50%, 0.7); transform: rotateX(-90deg) translateZ(75px); }
     @keyframes rotate {
-      from { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg); }
-      to { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg); }
+      from { transform: translateZ(-75px) rotateX(0deg) rotateY(0deg); }
+      to { transform: translateZ(-75px) rotateX(360deg) rotateY(360deg); }
     }
     </style>
     """, unsafe_allow_html=True)
