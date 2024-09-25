@@ -15,6 +15,8 @@ import av
 import time
 import altair as alt
 import numpy as np
+from streamlit_ace import st_ace
+from streamlit_agraph import agraph, Node, Edge, Config
 
 # 设置页面配置
 st.set_page_config(page_title="ModernHZ团队", page_icon="🚀", layout="wide")
@@ -205,6 +207,21 @@ def show_home():
     
     st.altair_chart(chart, use_container_width=True)
 
+    st.markdown("<h3 class='section-header'>我们的创新过程</h3>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st_lottie("https://assets5.lottiefiles.com/packages/lf20_yd8hamad.json", key="idea")
+        st.write("创意孵化")
+    
+    with col2:
+        st_lottie("https://assets5.lottiefiles.com/packages/lf20_9wpyhdzo.json", key="development")
+        st.write("快速开发")
+    
+    with col3:
+        st_lottie("https://assets2.lottiefiles.com/packages/lf20_49rdyysj.json", key="launch")
+        st.write("产品发布")
+
 # 团队介绍
 def show_team():
     st.markdown("<h1 class='main-header'>团队介绍</h1>", unsafe_allow_html=True)
@@ -253,6 +270,33 @@ def show_team():
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown("<h3 class='section-header'>团队协作网络</h3>", unsafe_allow_html=True)
+    
+    nodes = [
+        Node(id="1", label="张三", size=25),
+        Node(id="2", label="李四", size=25),
+        Node(id="3", label="王五", size=25),
+        Node(id="4", label="AI项目", size=20, shape="diamond"),
+        Node(id="5", label="IoT项目", size=20, shape="diamond"),
+    ]
+    
+    edges = [
+        Edge(source="1", target="4", type="CURVE_SMOOTH"),
+        Edge(source="2", target="4", type="CURVE_SMOOTH"),
+        Edge(source="2", target="5", type="CURVE_SMOOTH"),
+        Edge(source="3", target="5", type="CURVE_SMOOTH"),
+    ]
+    
+    config = Config(width=700, 
+                    height=500, 
+                    directed=True,
+                    physics=True, 
+                    hierarchical=False)
+    
+    return_value = agraph(nodes=nodes, 
+                          edges=edges, 
+                          config=config)
 
 # 项目展示
 def show_projects():
@@ -321,6 +365,11 @@ def show_projects():
     )
 
     st.pydeck_chart(deck)
+
+    st.markdown("<h3 class='section-header'>实时代码编辑</h3>", unsafe_allow_html=True)
+    code = st_ace(language="python", theme="monokai", value="# 在这里编写你的Python代码")
+    if code:
+        st.code(code)
 
 # 知识库
 def show_knowledge_base():
@@ -534,6 +583,22 @@ def innovation_challenge():
         </div>
         </div>
         """, unsafe_allow_html=True)
+
+    st.markdown("<h3 class='section-header'>创意涂鸦板</h3>", unsafe_allow_html=True)
+    st.write("在这里画出你的创新想法！")
+    
+    canvas_result = st_canvas(
+        fill_color="rgba(255, 165, 0, 0.3)",
+        stroke_width=3,
+        stroke_color="#e00",
+        background_color="#eee",
+        height=300,
+        drawing_mode="freedraw",
+        key="canvas",
+    )
+    
+    if canvas_result.image_data is not None:
+        st.image(canvas_result.image_data)
 
 def change_theme():
     themes = {
