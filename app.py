@@ -59,7 +59,7 @@ def show_home():
         st.image("images/SpaceX-2.jpg", caption="ModernHZ团队", use_column_width=True)
     
     st.markdown("<h3 class='section-header'>我们的愿景</h3>", unsafe_allow_html=True)
-    st.video("vision_video.mp4")
+    st.video("video/elon_mask.mp4")
 
 # 团队介绍
 def show_team():
