@@ -832,70 +832,74 @@ import random
 import streamlit as st
 import random
 
+import streamlit as st
+import random
+
 def welcome_screen():
     if 'name' not in st.session_state:
         st.session_state.name = ''
     
-    # 生成随机的"创新星点"
-    stars = ''.join([f'<div class="star" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh; animation-delay: -{random.random() * 5}s;"></div>' for _ in range(50)])
+    # 生成随机的数据点和连接线
+    nodes = ''.join([f'<div class="node" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh;"></div>' for _ in range(20)])
+    lines = ''.join([f'<div class="line" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh; width: {random.randint(50, 200)}px; transform: rotate({random.randint(0, 360)}deg);"></div>' for _ in range(30)])
     
     st.markdown(f"""
     <style>
-    @keyframes twinkle {{
-        0%, 100% {{ opacity: 0.2; }}
-        50% {{ opacity: 1; }}
+    @keyframes pulse {{
+        0%, 100% {{ transform: scale(1); opacity: 0.5; }}
+        50% {{ transform: scale(1.2); opacity: 1; }}
     }}
-    @keyframes float {{
-        0% {{ transform: translateY(0px); }}
-        50% {{ transform: translateY(-20px); }}
-        100% {{ transform: translateY(0px); }}
+    @keyframes flow {{
+        0% {{ background-position: 0% 50%; }}
+        100% {{ background-position: 100% 50%; }}
     }}
-    .star {{
+    .node {{
         position: fixed;
-        width: 4px;
-        height: 4px;
+        width: 8px;
+        height: 8px;
         background-color: #4169E1;
         border-radius: 50%;
-        pointer-events: none;
-        animation: twinkle 3s infinite, float 15s infinite;
+        animation: pulse 3s infinite;
     }}
-    .innovation-wave {{
+    .line {{
         position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 200px;
-        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%234169E1' fill-opacity='0.3' d='M0,128L48,144C96,160,192,192,288,197.3C384,203,480,181,576,181.3C672,181,768,203,864,197.3C960,192,1056,160,1152,138.7C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-        background-size: cover;
-        animation: wave 10s linear infinite;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(65,105,225,0) 0%, rgba(65,105,225,1) 50%, rgba(65,105,225,0) 100%);
+        opacity: 0.5;
+        animation: flow 3s linear infinite;
     }}
-    @keyframes wave {{
-        0% {{ background-position-x: 0; }}
-        100% {{ background-position-x: 1440px; }}
+    .innovation-background {{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #001F3F 0%, #003366 100%);
+        z-index: -1;
     }}
     .welcome-header {{
         font-size: 4em;
-        color: #4169E1;
+        color: #FFFFFF;
         text-align: center;
         margin-bottom: 20px;
         position: relative;
         z-index: 1;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         font-weight: bold;
     }}
     .welcome-subheader {{
         font-size: 1.8em;
-        color: #333;
+        color: #B0E0E6;
         text-align: center;
         margin-bottom: 40px;
         position: relative;
         z-index: 1;
     }}
     .stApp {{
-        background: linear-gradient(135deg, #E6F0FF 0%, #B3D9FF 100%);
+        background: transparent;
     }}
     .stButton>button {{
-        background-color: #4169E1;
+        background-color: #00BFFF;
         color: white;
         border-radius: 30px;
         padding: 10px 25px;
@@ -907,17 +911,19 @@ def welcome_screen():
     .stButton>button:hover {{
         background-color: #1E90FF;
         transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(65, 105, 225, 0.4);
+        box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
     }}
     .stTextInput>div>div>input {{
         border-radius: 15px;
-        border: 2px solid #4169E1;
+        border: 2px solid #00BFFF;
         padding: 10px 15px;
         font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #FFFFFF;
     }}
     .inspiration-quote {{
         font-style: italic;
-        color: #555;
+        color: #B0E0E6;
         text-align: center;
         margin-top: 30px;
     }}
@@ -927,10 +933,12 @@ def welcome_screen():
         margin-bottom: 20px;
     }}
     </style>
-    <div class="star-container">{stars}</div>
-    <div class="innovation-wave"></div>
+    <div class="innovation-background"></div>
+    <div class="node-container">{nodes}</div>
+    <div class="line-container">{lines}</div>
     """, unsafe_allow_html=True)
     
+    # 其余的函数内容保持不变
     if not st.session_state.name:
         st.markdown("<h1 class='welcome-header'>创新无界</h1>", unsafe_allow_html=True)
         st.markdown("<p class='welcome-subheader'>在ModernHZ，每个想法都是新世界的起点</p>", unsafe_allow_html=True)
@@ -940,7 +948,6 @@ def welcome_screen():
         if st.button("开启你的创新之旅", key="welcome_button"):
             if name:
                 st.session_state.name = name
-                st.experimental_rerun()
             else:
                 st.warning("请输入你的名字")
         
@@ -950,8 +957,6 @@ def welcome_screen():
         st.markdown("<p class='welcome-subheader'>你的下一个突破性想法，就在眼前</p>", unsafe_allow_html=True)
         st.markdown("<div class='innovation-icon'>🌈🔬🎨</div>", unsafe_allow_html=True)
         
-        if st.button("继续你的创新之旅", key="start_explore"):
-            st.experimental_rerun()
         
         daily_inspirations = [
             "今天，让我们挑战不可能！",
@@ -960,12 +965,11 @@ def welcome_screen():
             "每一次失败都是成功的铺垫。",
             "创新不是目的地，而是一段永无止境的旅程。"
         ]
-        st.markdown(f"<p class='inspiration-quote'>\"{random.choice(daily_inspirations)}\"</p>", unsafe_allow_html=True)
+        st.markdown(f"<p class='inspiration-quote'>{random.choice(daily_inspirations)}</p>", unsafe_allow_html=True)
 
     # 添加一个隐藏的按钮，用于重置用户名（仅用于测试目的）
     if st.button("重置", key="reset_button", help="重置用户名（仅用于测试）"):
         st.session_state.name = ''
-        st.experimental_rerun()
 # 主函数
 def main():
     if 'name' not in st.session_state or not st.session_state.name:
