@@ -173,14 +173,6 @@ def sidebar():
             </script>
             """, unsafe_allow_html=True)
         
-        # 添加个性化设置
-        st.markdown("### 个性化设置")
-        user_interests = st.multiselect("选择你感兴趣的领域", ["AI", "IoT", "区块链", "VR/AR", "可持续发展"])
-        
-        # 根据用户兴趣调整内容展示
-        if user_interests:
-            st.session_state.user_interests = user_interests
-        
     return selected
 
 def load_lottiefile(filepath: str):
