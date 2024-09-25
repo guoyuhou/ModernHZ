@@ -133,86 +133,29 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-def load_lottieurl(url: str):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-
+# 侧边栏
 def sidebar():
     with st.sidebar:
-        st.markdown(""" 
+        st.markdown("""
         <style>
         .sidebar .sidebar-content {
-            background-image: linear-gradient(
-                to bottom right,
-                #1e3c72, #2a5298, #7F7FD5
-            );
-            color: #ffffff;
-        }
-        .sidebar-content .block-container {
-            padding-top: 0;
-        }
-        .sidebar-content .stSelectbox > div > div {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: none;
-        }
-        .sidebar-content .stSelectbox > div > div > div {
-            color: #ffffff;
-        }
-        .menu-title {
-            font-family: 'Pacifico', cursive;
-            font-size: 2em;
-            text-align: center;
-            margin-bottom: 2rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .stButton>button {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            font-weight: 500;
-            border: none;
-            transition: all 0.3s ease;
-            margin-bottom: 0.5rem;
-        }
-        .stButton>button:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: translateX(5px);
-        }
-        .inspiration-quote {
-            font-style: italic;
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.9em;
-            opacity: 0.8;
+            width: 250px !important;
         }
         </style>
         """, unsafe_allow_html=True)
-
-        st.markdown('<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">', unsafe_allow_html=True)
-
-        st.markdown('<h1 class="menu-title">ModernHZ创意之旅</h1>', unsafe_allow_html=True)
-
-        # 添加Lottie动画
-        lottie_url = "https://assets5.lottiefiles.com/packages/lf20_ystsffqy.json"  # 创意灯泡动画
-        lottie_json = load_lottieurl(lottie_url)
-        st_lottie(lottie_json, height=150)
-
+        
+        st.image("images/SpaceX-2.jpg", width=150)
         selected = option_menu(
-            menu_title=None,
+            menu_title="ModernHZ导航",
             options=["主页", "团队介绍", "项目展示", "知识库", "加入我们", "实时协作", "AI助手", "数据仪表板", "创新挑战"],
             icons=["house", "people", "kanban", "book", "envelope", "camera-video", "robot", "bar-chart", "trophy"],
             menu_icon="rocket",
             default_index=0,
             styles={
-                "container": {"padding": "0!important", "background-color": "transparent"},
+                "container": {"padding": "0!important", "background-color": "#fafafa"},
                 "icon": {"color": "orange", "font-size": "14px"}, 
-                "nav-link": {"font-size": "14px", "text-align": "left", "margin":"0px", "--hover-color": "rgba(255, 255, 255, 0.2)"},
-                "nav-link-selected": {"background-color": "rgba(255, 255, 255, 0.2)"},
+                "nav-link": {"font-size": "14px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
+                "nav-link-selected": {"background-color": "#02ab21"},
             }
         )
         
@@ -229,128 +172,8 @@ def sidebar():
                 document.body.classList.remove('dark');
             </script>
             """, unsafe_allow_html=True)
-
-        # 添加每日灵感语录
-        inspirations = [
-            "创意是智慧的火花，照亮未知的道路。",
-            "在平凡中发现非凡，在已知中探索未知。",
-            "创新不是目的地，而是一段永无止境的旅程。",
-            "让你的想象力自由翱翔，因为那里有无限可能。",
-            "每一个伟大的成就，都始于一个大胆的想法。"
-        ]
-        st.markdown(f'<p class="inspiration-quote">"{random.choice(inspirations)}"</p>', unsafe_allow_html=True)
         
     return selected
-
-# 添加动态背景
-st.markdown("""
-<div id="particles-js"></div>
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script>
-particlesJS('particles-js', {
-  "particles": {
-    "number": {
-      "value": 80,
-      "density": {
-        "enable": true,
-        "value_area": 800
-      }
-    },
-    "color": {
-      "value": "#ffffff"
-    },
-    "shape": {
-      "type": "circle",
-      "stroke": {
-        "width": 0,
-        "color": "#000000"
-      },
-    },
-    "opacity": {
-      "value": 0.5,
-      "random": false,
-      "anim": {
-        "enable": false,
-        "speed": 1,
-        "opacity_min": 0.1,
-        "sync": false
-      }
-    },
-    "size": {
-      "value": 3,
-      "random": true,
-      "anim": {
-        "enable": false,
-        "speed": 40,
-        "size_min": 0.1,
-        "sync": false
-      }
-    },
-    "line_linked": {
-      "enable": true,
-      "distance": 150,
-      "color": "#ffffff",
-      "opacity": 0.4,
-      "width": 1
-    },
-    "move": {
-      "enable": true,
-      "speed": 6,
-      "direction": "none",
-      "random": false,
-      "straight": false,
-      "out_mode": "out",
-      "bounce": false,
-      "attract": {
-        "enable": false,
-        "rotateX": 600,
-        "rotateY": 1200
-      }
-    }
-  },
-  "interactivity": {
-    "detect_on": "canvas",
-    "events": {
-      "onhover": {
-        "enable": true,
-        "mode": "repulse"
-      },
-      "onclick": {
-        "enable": true,
-        "mode": "push"
-      },
-      "resize": true
-    },
-    "modes": {
-      "grab": {
-        "distance": 400,
-        "line_linked": {
-          "opacity": 1
-        }
-      },
-      "bubble": {
-        "distance": 400,
-        "size": 40,
-        "duration": 2,
-        "opacity": 8,
-        "speed": 3
-      },
-      "repulse": {
-        "distance": 200,
-        "duration": 0.4
-      },
-      "push": {
-        "particles_nb": 4
-      },
-      "remove": {
-        "particles_nb": 2
-      }
-    }
-  },
-  "retina_detect": true
-});
-</script>
-""", unsafe_allow_html=True)
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
