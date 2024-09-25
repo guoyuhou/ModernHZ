@@ -360,6 +360,215 @@ def show_home():
     except Exception as e:
         st.error(f"无法加载动画: {str(e)}")
         # 在这里可以添加一些替代内容，比如静态图片或文字描述
+
+    # 添加创新故事轮播
+    st.markdown("<h3 class='section-header'>创新故事</h3>", unsafe_allow_html=True)
+    stories = [
+        {"title": "从0到1：我们如何颠覆传统行业", "image": "story1.jpg"},
+        {"title": "当AI遇上艺术：跨界创新的奇妙火花", "image": "story2.jpg"},
+        {"title": "绿色科技：我们为地球做的那些事", "image": "story3.jpg"}
+    ]
+    story_html = """
+    <div class="story-carousel">
+        {}
+    </div>
+    <style>
+    .story-carousel {{
+        display: flex;
+        overflow-x: auto;
+        padding: 20px 0;
+    }}
+    .story-card {{
+        min-width: 250px;
+        margin-right: 20px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s;
+    }}
+    .story-card:hover {{
+        transform: translateY(-5px);
+    }}
+    .story-card img {{
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }}
+    .story-card h4 {{
+        padding: 10px;
+        color: var(--primary-color);
+    }}
+    </style>
+    """.format(''.join([f"""
+        <div class="story-card">
+            <img src="{story['image']}" alt="{story['title']}">
+            <h4>{story['title']}</h4>
+        </div>
+    """ for story in stories]))
+    st.markdown(story_html, unsafe_allow_html=True)
+
+    # 添加互动式创新挑战
+    st.markdown("<h3 class='section-header'>今日创新挑战</h3>", unsafe_allow_html=True)
+    challenge = random.choice([
+        "设计一个可以在5分钟内学会任何技能的AI助手",
+        "发明一种可以清洁海洋的环保材料",
+        "创造一个能够实现跨语言即时交流的设备"
+    ])
+    st.markdown(f"""
+    <div class="challenge-card">
+        <h4>🧠 {challenge}</h4>
+        <p>接受挑战，展示你的创新思维！</p>
+    </div>
+    """, unsafe_allow_html=True)
+    user_solution = st.text_area("你的创新方案是：")
+    if st.button("提交方案"):
+        st.success("太棒了！你的创新方案已经提交。我们的团队会认真审阅每一个想法！")
+
+    # 添加实时创新指数
+    st.markdown("<h3 class='section-header'>ModernHZ创新指数</h3>", unsafe_allow_html=True)
+    innovation_index = random.randint(80, 100)
+    st.markdown(f"""
+    <div class="innovation-index">
+        <div class="index-value" style="width: {innovation_index}%;">{innovation_index}</div>
+    </div>
+    <p class="index-description">我们的创新指数反映了团队的创新活力和项目进展。</p>
+    <style>
+    .innovation-index {{
+        background: rgba(255,255,255,0.1);
+        border-radius: 20px;
+        height: 40px;
+        position: relative;
+        overflow: hidden;
+    }}
+    .index-value {{
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 10px;
+        color: white;
+        font-weight: bold;
+        transition: width 1s ease-in-out;
+    }}
+    .index-description {{
+        text-align: center;
+        font-style: italic;
+        margin-top: 10px;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
+    # 添加团队成员见解
+    st.markdown("<h3 class='section-header'>团队洞察</h3>", unsafe_allow_html=True)
+    insights = [
+        {"name": "张三", "role": "AI研究员", "insight": "未来的AI将不仅仅是工具，而是创新的伙伴。"},
+        {"name": "李四", "role": "产品设计师", "insight": "最好的设计是让复杂变简单，让困难变轻松。"},
+        {"name": "王五", "role": "创新战略师", "insight": "创新不是一蹴而就的，而是日积月累的结果。"}
+    ]
+    for insight in insights:
+        st.markdown(f"""
+        <div class="insight-card">
+            <img src="https://api.dicebear.com/6.x/initials/svg?seed={insight['name']}" alt="{insight['name']}" class="avatar">
+            <div class="insight-content">
+                <h4>{insight['name']} - {insight['role']}</h4>
+                <p>"{insight['insight']}"</p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    st.markdown("""
+    <style>
+    .insight-card {
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+    .insight-content h4 {
+        margin: 0;
+        color: var(--primary-color);
+    }
+    .insight-content p {
+        margin: 5px 0 0;
+        font-style: italic;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # 添加互动式创新工具箱
+    st.markdown("<h3 class='section-header'>创新工具箱</h3>", unsafe_allow_html=True)
+    tool = st.selectbox("选择一个创新工具", ["头脑风暴生成器", "创意评估矩阵", "未来趋势预测器"])
+    if tool == "头脑风暴生成器":
+        keywords = st.text_input("输入几个关键词，用逗号分隔")
+        if st.button("生成创意"):
+            ideas = [f"基于{keywords}的{random.choice(['智能家居', '可穿戴设备', '教育平台', '健康监测系统'])}" for _ in range(3)]
+            for idea in ideas:
+                st.markdown(f"- {idea}")
+    elif tool == "创意评估矩阵":
+        st.image("https://via.placeholder.com/500x300.png?text=创意评估矩阵示例", caption="创意评估矩阵示例")
+    elif tool == "未来趋势预测器":
+        st.line_chart(pd.DataFrame(np.random.randn(20, 3), columns=['AI', '可持续发展', '太空技术']))
+
+    # 添加全球创新网络地图
+    st.markdown("<h3 class='section-header'>全球创新网络</h3>", unsafe_allow_html=True)
+    world_map = px.scatter_geo(
+        pd.DataFrame({
+            'lat': [40.7128, 51.5074, 35.6762, -33.8688, 1.3521],
+            'lon': [-74.0060, -0.1278, 139.6503, 151.2093, 103.8198],
+            'city': ['纽约', '伦敦', '东京', '悉尼', '新加坡'],
+            'size': [20, 18, 15, 12, 10]
+        }),
+        lat='lat',
+        lon='lon',
+        hover_name='city',
+        size='size',
+        projection='natural earth',
+        title='ModernHZ全球创新中心'
+    )
+    world_map.update_layout(height=500, margin={"r":0,"t":0,"l":0,"b":0})
+    st.plotly_chart(world_map, use_container_width=True)
+
+    # 添加加入我们的号召
+    st.markdown("""
+    <div class="join-us">
+        <h3>加入我们，共创未来！</h3>
+        <p>我们正在寻找充满激情、富有创造力的人才。如果你对创新充满热情，欢迎加入我们的团队！</p>
+        <a href="#" class="join-button">立即申请</a>
+    </div>
+    <style>
+    .join-us {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        color: white;
+    }
+    .join-button {
+        display: inline-block;
+        background: white;
+        color: var(--primary-color);
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 15px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .join-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # 团队介绍
 def show_team():
     st.markdown("<h1 class='main-header'>团队介绍</h1>", unsafe_allow_html=True)
