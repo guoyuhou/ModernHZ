@@ -826,32 +826,43 @@ def change_theme():
         }}
     </style>
     """, unsafe_allow_html=True)
-
-import streamlit as st
-import random
-
 def welcome_screen():
     if 'name' not in st.session_state:
         st.session_state.name = ''
     
-    # 生成随机的"粒子"
-    particles = ''.join([f'<div class="particle" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh; animation-delay: -{random.random() * 5}s;"></div>' for _ in range(50)])
+    # 生成随机的"创意节点"
+    nodes = ''.join([f'<div class="node" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh; animation-delay: -{random.random() * 5}s;"></div>' for _ in range(20)])
     
     st.markdown(f"""
     <style>
-    @keyframes float {{
-        0% {{ transform: translateY(0px) rotate(0deg); }}
-        50% {{ transform: translateY(-20px) rotate(180deg); }}
-        100% {{ transform: translateY(0px) rotate(360deg); }}
+    @keyframes pulse {{
+        0% {{ transform: scale(1); opacity: 0.5; }}
+        50% {{ transform: scale(1.2); opacity: 1; }}
+        100% {{ transform: scale(1); opacity: 0.5; }}
     }}
-    .particle {{
+    @keyframes float {{
+        0% {{ transform: translateY(0px); }}
+        50% {{ transform: translateY(-10px); }}
+        100% {{ transform: translateY(0px); }}
+    }}
+    .node {{
         position: fixed;
-        width: 10px;
-        height: 10px;
-        background-color: rgba(76, 175, 80, 0.3);
+        width: 8px;
+        height: 8px;
+        background-color: #4CAF50;
         border-radius: 50%;
         pointer-events: none;
-        animation: float 5s infinite;
+        animation: pulse 4s infinite, float 6s infinite;
+    }}
+    .node::before {{
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 1px;
+        background: linear-gradient(90deg, #4CAF50, transparent);
+        transform: translate(-50%, -50%) rotate(calc(var(--angle) * 1deg));
     }}
     .welcome-header {{
         font-size: 3.5em;
@@ -860,6 +871,7 @@ def welcome_screen():
         margin-bottom: 30px;
         position: relative;
         z-index: 1;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }}
     .welcome-subheader {{
         font-size: 1.8em;
@@ -870,31 +882,37 @@ def welcome_screen():
         z-index: 1;
     }}
     .content-wrapper {{
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 20px;
-        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 15px;
         position: relative;
         z-index: 1;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }}
     .stApp {{
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     }}
     </style>
-    <div class="particle-container">
-        {particles}
+    <div class="node-container">
+        {nodes}
     </div>
+    <script>
+        document.querySelectorAll('.node').forEach(node => {{
+            node.style.setProperty('--angle', Math.random() * 360);
+        }});
+    </script>
     """, unsafe_allow_html=True)
     
     st.markdown('<div class="content-wrapper">', unsafe_allow_html=True)
     
     if not st.session_state.name:
         st.markdown("<h1 class='welcome-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
-        st.markdown("<p class='welcome-subheader'>创新从这里开始</p>", unsafe_allow_html=True)
+        st.markdown("<p class='welcome-subheader'>在这里，每个创意都能找到它的连接</p>", unsafe_allow_html=True)
         
         col1, col2, col3 = st.columns([1,2,1])
         with col2:
             name = st.text_input("请输入你的名字：", key="welcome_input", max_chars=50)
-            if st.button("开始探索", key="welcome_button"):
+            if st.button("开启你的创新之旅", key="welcome_button"):
                 if name:
                     st.session_state.name = name
                     st.experimental_rerun()
@@ -902,11 +920,11 @@ def welcome_screen():
                     st.warning("请输入你的名字")
     else:
         st.markdown(f"<h1 class='welcome-header'>欢迎回来，{st.session_state.name}！</h1>", unsafe_allow_html=True)
-        st.markdown("<p class='welcome-subheader'>准备好开始今天的创新之旅了吗？</p>", unsafe_allow_html=True)
+        st.markdown("<p class='welcome-subheader'>你的下一个突破性想法正在等待被发现</p>", unsafe_allow_html=True)
         
         col1, col2, col3 = st.columns([1,2,1])
         with col2:
-            if st.button("开始探索", key="start_explore"):
+            if st.button("继续你的创新之旅", key="start_explore"):
                 st.experimental_rerun()
     
     st.markdown('</div>', unsafe_allow_html=True)
