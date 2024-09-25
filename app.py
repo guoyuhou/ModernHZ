@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 import pydeck as pdk
 from streamlit_webrtc import webrtc_streamer
 import av
-import openai
 from streamlit_extras.stqdm import stqdm
 import time
 
@@ -389,18 +388,8 @@ def show_ai_assistant():
     
     user_input = st.text_input("输入你的问题：")
     if user_input:
-        response = ai_assistant(user_input)
+        response = "抱歉，AI助手功能暂时不可用。"
         st.write("AI助手：", response)
-
-openai.api_key = 'your-api-key'
-
-def ai_assistant(prompt):
-    response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=prompt,
-        max_tokens=150
-    )
-    return response.choices[0].text.strip()
 
 def show_dashboard():
     st.markdown("<h1 class='main-header'>实时数据仪表板</h1>", unsafe_allow_html=True)
