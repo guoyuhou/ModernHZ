@@ -217,23 +217,23 @@ def show_home():
     col1, col2, col3 = st.columns(3)
     
     try:
-        with col1:
-            lottie_idea = load_lottiefile("Lottie/Animation-1727243760282.json")  # 替换为实际路径
-            st_lottie(lottie_idea, key="idea")
-            st.write("创意孵化")
+        animations = [
+            {"key": "idea", "title": "创意孵化", "file": "Lottie/idea_animation.json"},
+            {"key": "development", "title": "快速开发", "file": "Lottie/dev_animation.json"},
+            {"key": "launch", "title": "产品发布", "file": "Lottie/launch_animation.json"}
+        ]
         
-        with col2:
-            lottie_dev = load_lottiefile("Lottie/Animation-1727243760282.json")  # 替换为实际路径
-            st_lottie(lottie_dev, key="development")
-            st.write("快速开发")
-        
-        with col3:
-            lottie_launch = load_lottiefile("Lottie/Animation-1727243760282.json")  # 替换为实际路径
-            st_lottie(lottie_launch, key="launch")
-            st.write("产品发布")
+        for col, anim in zip([col1, col2, col3], animations):
+            with col:
+                lottie_anim = load_lottiefile(anim["file"])
+                if lottie_anim:
+                    st_lottie(lottie_anim, key=anim["key"], height=200, quality="low", speed=1)
+                    st.markdown(f"<h4 style='text-align: center;'>{anim['title']}</h4>", unsafe_allow_html=True)
+                else:
+                    st.warning(f"无法加载 {anim['title']} 动画")
     except Exception as e:
-        st.error(f"无法加载动画: {str(e)}")
-        # 在这里可以添加一些替代内容，比如静态图片或文字描述
+        st.error(f"加载动画时出错: {str(e)}")
+        st.info("我们正在努力修复这个问题。请稍后再试。")
 
 # 团队介绍
 def show_team():
