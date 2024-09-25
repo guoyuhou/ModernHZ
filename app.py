@@ -183,54 +183,112 @@ def show_home():
     st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
     st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
     
-    # 使用Streamlit实现动态背景效果
+    # 使用Streamlit实现更现代化、创新的动态背景效果
     st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(45deg, #000428, #004e92);
+        background: linear-gradient(132deg, #FC415A, #591BC5, #212335);
         background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
+        animation: Gradient 15s ease infinite;
         position: relative;
+        height: 100vh;
+        width: 100%;
         overflow: hidden;
+        padding:0;
+        margin:0px;
     }
-    @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    .stApp::before {
-        content: '';
+    .cube {
         position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-        background-size: 50px 50px;
-        animation: starryNight 20s linear infinite;
+        top: 80vh;
+        left: 45vw;
+        width: 10px;
+        height: 10px;
+        border: solid 1px #D7D4E4;
+        transform-origin: top left;
+        transform: scale(0) rotate(0deg) translate(-50%, -50%);
+        animation: cube 12s ease-in forwards infinite;
     }
-    @keyframes starryNight {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    .cube:nth-child(2n) {
+        border-color: #FFF ;
+    }
+    .cube:nth-child(2) {
+        animation-delay: 2s;
+        left: 25vw;
+        top: 40vh;
+    }
+    .cube:nth-child(3) {
+        animation-delay: 4s;
+        left: 75vw;
+        top: 50vh;
+    }
+    .cube:nth-child(4) {
+        animation-delay: 6s;
+        left: 90vw;
+        top: 10vh;
+    }
+    .cube:nth-child(5) {
+        animation-delay: 8s;
+        left: 10vw;
+        top: 85vh;
+    }
+    .cube:nth-child(6) {
+        animation-delay: 10s;
+        left: 50vw;
+        top: 10vh;
+    }
+    @keyframes Gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    @keyframes cube {
+        from {
+            transform: scale(0) rotate(0deg) translate(-50%, -50%);
+            opacity: 1;
+        }
+        to {
+            transform: scale(20) rotate(960deg) translate(-50%, -50%);
+            opacity: 0;
+        }
     }
     </style>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
     """, unsafe_allow_html=True)
 
     # 添加动态文字效果
     st.markdown("""
     <style>
-    @keyframes glowPulse {
-        0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #00a8ff, 0 0 35px #00a8ff, 0 0 40px #00a8ff, 0 0 50px #00a8ff, 0 0 75px #00a8ff; }
-        50% { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 7px #fff, 0 0 10px #00a8ff, 0 0 17px #00a8ff, 0 0 20px #00a8ff, 0 0 25px #00a8ff, 0 0 37px #00a8ff; }
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
     }
-    .glow-effect {
-        color: #fff;
-        font-size: 2em;
-        text-align: center;
-        animation: glowPulse 2s ease-in-out infinite;
+    .typing-effect {
+        overflow: hidden;
+        border-right: .15em solid orange;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: .15em;
+        animation: 
+            typing 3.5s steps(40, end),
+            blink-caret .75s step-end infinite;
+    }
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: orange; }
     }
     </style>
-    <h3 class="glow-effect">欢迎来到创新无限的世界</h3>
+    <h3 class="typing-effect">欢迎来到创新无限的世界</h3>
     """, unsafe_allow_html=True)
 
     # 添加动态图标
