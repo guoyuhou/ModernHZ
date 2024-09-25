@@ -183,87 +183,50 @@ def show_home():
     st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
     st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
     
-    # 使用Streamlit实现更现代化、创新的动态背景效果
+    # 使用Streamlit实现动态背景效果
     st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(132deg, #FC415A, #591BC5, #212335);
-        background-size: 400% 400%;
-        animation: Gradient 15s ease infinite;
+        background-color: white;
         position: relative;
-        height: 100vh;
-        width: 100%;
         overflow: hidden;
-        padding:0;
-        margin:0px;
     }
-    .cube {
+    .stApp::before {
+        content: '';
         position: absolute;
-        top: 80vh;
-        left: 45vw;
-        width: 10px;
-        height: 10px;
-        border: solid 1px #D7D4E4;
-        transform-origin: top left;
-        transform: scale(0) rotate(0deg) translate(-50%, -50%);
-        animation: cube 12s ease-in forwards infinite;
+        top: -50%;
+        left: -50%;
+        right: -50%;
+        bottom: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
+        z-index: -1;
+        animation: modernBackground 20s linear infinite;
     }
-    .cube:nth-child(2n) {
-        border-color: #FFF ;
-    }
-    .cube:nth-child(2) {
-        animation-delay: 2s;
-        left: 25vw;
-        top: 40vh;
-    }
-    .cube:nth-child(3) {
-        animation-delay: 4s;
-        left: 75vw;
-        top: 50vh;
-    }
-    .cube:nth-child(4) {
-        animation-delay: 6s;
-        left: 90vw;
-        top: 10vh;
-    }
-    .cube:nth-child(5) {
-        animation-delay: 8s;
-        left: 10vw;
-        top: 85vh;
-    }
-    .cube:nth-child(6) {
-        animation-delay: 10s;
-        left: 50vw;
-        top: 10vh;
-    }
-    @keyframes Gradient {
+    @keyframes modernBackground {
         0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
+            transform: rotate(0deg);
         }
         100% {
-            background-position: 0% 50%;
+            transform: rotate(360deg);
         }
     }
-    @keyframes cube {
-        from {
-            transform: scale(0) rotate(0deg) translate(-50%, -50%);
-            opacity: 1;
-        }
-        to {
-            transform: scale(20) rotate(960deg) translate(-50%, -50%);
-            opacity: 0;
-        }
+    .stApp::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        z-index: -1;
+    }
+    .main-header, .sub-header {
+        position: relative;
+        z-index: 1;
     }
     </style>
-    <div class='cube'></div>
-    <div class='cube'></div>
-    <div class='cube'></div>
-    <div class='cube'></div>
-    <div class='cube'></div>
-    <div class='cube'></div>
     """, unsafe_allow_html=True)
 
     # 添加动态文字效果
@@ -275,7 +238,7 @@ def show_home():
     }
     .typing-effect {
         overflow: hidden;
-        border-right: .15em solid orange;
+        border-right: .15em solid #02ab21;
         white-space: nowrap;
         margin: 0 auto;
         letter-spacing: .15em;
@@ -285,7 +248,7 @@ def show_home():
     }
     @keyframes blink-caret {
         from, to { border-color: transparent }
-        50% { border-color: orange; }
+        50% { border-color: #02ab21; }
     }
     </style>
     <h3 class="typing-effect">欢迎来到创新无限的世界</h3>
@@ -335,19 +298,21 @@ def show_home():
       position: absolute;
       width: 150px;
       height: 150px;
-      border: 2px solid #fff;
+      border: 2px solid #02ab21;
       line-height: 150px;
       font-size: 18px;
       font-weight: bold;
-      color: #fff;
+      color: #02ab21;
       text-align: center;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 10px rgba(2, 171, 33, 0.3);
     }
-    .cube__face--front  { background: hsla(0, 100%, 50%, 0.7); transform: rotateY(0deg) translateZ(75px); }
-    .cube__face--right  { background: hsla(60, 100%, 50%, 0.7); transform: rotateY(90deg) translateZ(75px); }
-    .cube__face--back   { background: hsla(120, 100%, 50%, 0.7); transform: rotateY(180deg) translateZ(75px); }
-    .cube__face--left   { background: hsla(180, 100%, 50%, 0.7); transform: rotateY(-90deg) translateZ(75px); }
-    .cube__face--top    { background: hsla(240, 100%, 50%, 0.7); transform: rotateX(90deg) translateZ(75px); }
-    .cube__face--bottom { background: hsla(300, 100%, 50%, 0.7); transform: rotateX(-90deg) translateZ(75px); }
+    .cube__face--front  { transform: rotateY(0deg) translateZ(75px); }
+    .cube__face--right  { transform: rotateY(90deg) translateZ(75px); }
+    .cube__face--back   { transform: rotateY(180deg) translateZ(75px); }
+    .cube__face--left   { transform: rotateY(-90deg) translateZ(75px); }
+    .cube__face--top    { transform: rotateX(90deg) translateZ(75px); }
+    .cube__face--bottom { transform: rotateX(-90deg) translateZ(75px); }
     @keyframes rotate {
       from { transform: translateZ(-75px) rotateX(0deg) rotateY(0deg); }
       to { transform: translateZ(-75px) rotateX(360deg) rotateY(360deg); }
@@ -464,14 +429,14 @@ def show_home():
     st.markdown("""
     <style>
     .streamlit-expanderHeader {
-        background-color: var(--primary-color);
+        background-color: #02ab21;
         color: white;
         border-radius: 5px;
         padding: 10px;
         margin-bottom: 10px;
     }
     .streamlit-expanderContent {
-        background-color: rgba(255,255,255,0.1);
+        background-color: rgba(2, 171, 33, 0.1);
         border-radius: 5px;
         padding: 15px;
     }
@@ -505,14 +470,14 @@ def show_home():
     <p class="index-description">我们的创新指数反映了团队的创新活力和项目进展。</p>
     <style>
     .innovation-index {{
-        background: rgba(255,255,255,0.1);
+        background: rgba(2, 171, 33, 0.1);
         border-radius: 20px;
         height: 40px;
         position: relative;
         overflow: hidden;
     }}
     .index-value {{
-        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        background: linear-gradient(90deg, #02ab21, #04d92a);
         height: 100%;
         display: flex;
         align-items: center;
@@ -552,7 +517,7 @@ def show_home():
     .insight-card {
         display: flex;
         align-items: center;
-        background: rgba(255,255,255,0.1);
+        background: rgba(2, 171, 33, 0.1);
         border-radius: 10px;
         padding: 15px;
         margin-bottom: 15px;
@@ -565,7 +530,7 @@ def show_home():
     }
     .insight-content h4 {
         margin: 0;
-        color: var(--primary-color);
+        color: #02ab21;
     }
     .insight-content p {
         margin: 5px 0 0;
@@ -616,7 +581,7 @@ def show_home():
     </div>
     <style>
     .join-us {
-        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        background: linear-gradient(45deg, #02ab21, #04d92a);
         border-radius: 15px;
         padding: 30px;
         text-align: center;
@@ -625,7 +590,7 @@ def show_home():
     .join-button {
         display: inline-block;
         background: white;
-        color: var(--primary-color);
+        color: #02ab21;
         padding: 10px 20px;
         border-radius: 25px;
         text-decoration: none;
@@ -635,7 +600,7 @@ def show_home():
     }
     .join-button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        box-shadow: 0 5px 15px rgba(2, 171, 33, 0.2);
     }
     </style>
     """, unsafe_allow_html=True)
