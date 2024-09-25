@@ -34,7 +34,7 @@ st.markdown("""
 # 侧边栏
 def sidebar():
     with st.sidebar:
-        st.image("logo.png", width=200)
+        st.image("images/SpaceX-2.jpg", width=200)
         st.title("ModernHZ导航")
         return st.radio("选择页面", ["主页", "团队介绍", "项目展示", "知识库", "加入我们"])
 
