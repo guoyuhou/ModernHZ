@@ -133,47 +133,92 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 侧边栏
+# 侧边栏：梦幻星空画布
 def sidebar():
     with st.sidebar:
         st.markdown("""
         <style>
         .sidebar .sidebar-content {
-            width: 250px !important;
+            width: 280px !important;
+            background: linear-gradient(45deg, #1a237e, #4a148c);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        </style>
+        <div id="starry-sky"></div>
+        <script>
+        function createStars() {
+            const sky = document.getElementById('starry-sky');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'sidebar-star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                sky.appendChild(star);
+            }
+        }
+        createStars();
+        </script>
+        """, unsafe_allow_html=True)
+        
+        st.image("images/SpaceX-2.jpg", width=200, use_column_width=True)
+        
+        menu_options = [
+            {"name": "梦想起航", "icon": "🚀"},
+            {"name": "创意星球", "icon": "🌍"},
+            {"name": "创新银河", "icon": "🌌"},
+            {"name": "知识宇宙", "icon": "🔭"},
+            {"name": "加入星际", "icon": "👨‍🚀"},
+            {"name": "虚拟星尘", "icon": "✨"},
+            {"name": "AI星际助手", "icon": "🤖"},
+            {"name": "数据星图", "icon": "📊"},
+            {"name": "挑战黑洞", "icon": "🕳️"}
+        ]
+        
+        selected = st.radio("", options=[f"{option['icon']} {option['name']}" for option in menu_options], key="menu")
+        
+        st.markdown("""
+        <style>
+        .stRadio > label {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+        .stRadio > label:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
         }
         </style>
         """, unsafe_allow_html=True)
         
-        st.image("images/SpaceX-2.jpg", width=150)
-        selected = option_menu(
-            menu_title="ModernHZ导航",
-            options=["主页", "团队介绍", "项目展示", "知识库", "加入我们", "实时协作", "AI助手", "数据仪表板", "创新挑战"],
-            icons=["house", "people", "kanban", "book", "envelope", "camera-video", "robot", "bar-chart", "trophy"],
-            menu_icon="rocket",
-            default_index=0,
-            styles={
-                "container": {"padding": "0!important", "background-color": "#fafafa"},
-                "icon": {"color": "orange", "font-size": "14px"}, 
-                "nav-link": {"font-size": "14px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
-                "nav-link-selected": {"background-color": "#02ab21"},
+        # 星际模式切换
+        if st.checkbox("星际旅行模式", key="space_mode"):
+            st.markdown("""
+            <style>
+            body {
+                background-image: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+                background-size: cover;
+                color: #ffffff;
             }
-        )
-        
-        # 深色模式切换
-        if st.checkbox("深色模式", key="dark_mode"):
-            st.markdown("""
-            <script>
-                document.body.classList.add('dark');
-            </script>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <script>
-                document.body.classList.remove('dark');
-            </script>
+            </style>
             """, unsafe_allow_html=True)
         
-    return selected
+    return selected.split(" ", 1)[1]  # 返回选中的选项名称
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
