@@ -829,98 +829,120 @@ def change_theme():
 import streamlit as st
 import random
 
+import streamlit as st
+import random
+import time
+
 def welcome_screen():
     if 'name' not in st.session_state:
         st.session_state.name = ''
     
-    # 生成随机的"创新星点"
-    stars = ''.join([f'<div class="star" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh; animation-delay: -{random.random() * 5}s;"></div>' for _ in range(50)])
+    # 生成动态星空背景
+    stars = ''.join([f'<div class="star" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh; animation-delay: -{random.random() * 5}s;"></div>' for _ in range(100)])
     
+    # 创新词云
+    innovation_words = ["创新", "突破", "灵感", "未来", "科技", "梦想", "挑战", "探索", "进步", "革新"]
+    word_cloud = ''.join([f'<span class="innovation-word" style="left: {random.randint(0, 100)}vw; top: {random.randint(0, 100)}vh; animation-delay: {random.random() * 5}s;">{word}</span>' for word in innovation_words])
+
     st.markdown(f"""
     <style>
     @keyframes twinkle {{
-        0%, 100% {{ opacity: 0.2; }}
-        50% {{ opacity: 1; }}
+        0%, 100% {{ opacity: 0.2; transform: scale(1); }}
+        50% {{ opacity: 1; transform: scale(1.2); }}
     }}
     @keyframes float {{
         0% {{ transform: translateY(0px); }}
         50% {{ transform: translateY(-20px); }}
         100% {{ transform: translateY(0px); }}
     }}
+    @keyframes fadeIn {{
+        from {{ opacity: 0; }}
+        to {{ opacity: 1; }}
+    }}
     .star {{
         position: fixed;
-        width: 4px;
-        height: 4px;
-        background-color: #4169E1;
+        width: 2px;
+        height: 2px;
+        background-color: #fff;
         border-radius: 50%;
-        pointer-events: none;
         animation: twinkle 3s infinite, float 15s infinite;
     }}
-    .innovation-wave {{
+    .innovation-word {{
         position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 200px;
-        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%234169E1' fill-opacity='0.3' d='M0,128L48,144C96,160,192,192,288,197.3C384,203,480,181,576,181.3C672,181,768,203,864,197.3C960,192,1056,160,1152,138.7C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-        background-size: cover;
-        animation: wave 10s linear infinite;
+        color: rgba(65, 105, 225, 0.7);
+        font-size: 1.5em;
+        font-weight: bold;
+        animation: fadeIn 2s forwards, float 10s infinite;
     }}
-    @keyframes wave {{
-        0% {{ background-position-x: 0; }}
-        100% {{ background-position-x: 1440px; }}
+    .welcome-container {{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #0a192f 0%, #203a43 100%);
+        color: #fff;
+        font-family: 'Arial', sans-serif;
     }}
     .welcome-header {{
         font-size: 4em;
-        color: #4169E1;
-        text-align: center;
         margin-bottom: 20px;
-        position: relative;
-        z-index: 1;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        font-weight: bold;
+        text-align: center;
+        background: linear-gradient(45deg, #4169E1, #00BFFF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fadeIn 2s forwards;
     }}
     .welcome-subheader {{
-        font-size: 1.8em;
-        color: #333;
-        text-align: center;
+        font-size: 1.5em;
         margin-bottom: 40px;
-        position: relative;
-        z-index: 1;
+        text-align: center;
+        opacity: 0;
+        animation: fadeIn 2s 0.5s forwards;
     }}
-    .stApp {{
-        background: linear-gradient(135deg, #E6F0FF 0%, #B3D9FF 100%);
+    .input-container {{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        animation: fadeIn 2s 1s forwards;
+    }}
+    .stTextInput>div>div>input {{
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px solid #4169E1;
+        border-radius: 20px;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        width: 300px;
+        text-align: center;
     }}
     .stButton>button {{
-        background-color: #4169E1;
+        background: linear-gradient(45deg, #4169E1, #00BFFF);
         color: white;
-        border-radius: 30px;
-        padding: 10px 25px;
-        font-size: 18px;
-        font-weight: bold;
         border: none;
+        border-radius: 20px;
+        padding: 10px 30px;
+        font-size: 1.2em;
+        cursor: pointer;
         transition: all 0.3s ease;
+        margin-top: 20px;
     }}
     .stButton>button:hover {{
-        background-color: #1E90FF;
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(65, 105, 225, 0.4);
     }}
-    .stTextInput>div>div>input {{
-        border-radius: 15px;
-        border: 2px solid #4169E1;
-        padding: 10px 15px;
-        font-size: 16px;
-    }}
     </style>
     <div class="star-container">{stars}</div>
-    <div class="innovation-wave"></div>
+    <div class="word-cloud">{word_cloud}</div>
+    <div class="welcome-container">
     """, unsafe_allow_html=True)
     
     if not st.session_state.name:
-        st.markdown("<h1 class='welcome-header'>创新无界</h1>", unsafe_allow_html=True)
-        st.markdown("<p class='welcome-subheader'>在ModernHZ，每个想法都是新世界的起点</p>", unsafe_allow_html=True)
+        st.markdown("<h1 class='welcome-header'>欢迎来到创新的世界</h1>", unsafe_allow_html=True)
+        st.markdown("<p class='welcome-subheader'>在这里，每个想法都是新世界的起点</p>", unsafe_allow_html=True)
         
+        st.markdown('<div class="input-container">', unsafe_allow_html=True)
         name = st.text_input("请输入你的名字", key="welcome_input", max_chars=50)
         if st.button("开启你的创新之旅", key="welcome_button"):
             if name:
@@ -928,13 +950,25 @@ def welcome_screen():
                 st.experimental_rerun()
             else:
                 st.warning("请输入你的名字")
+        st.markdown('</div>', unsafe_allow_html=True)
     else:
         st.markdown(f"<h1 class='welcome-header'>欢迎回来，{st.session_state.name}</h1>", unsafe_allow_html=True)
         st.markdown("<p class='welcome-subheader'>你的下一个突破性想法，就在眼前</p>", unsafe_allow_html=True)
         
         if st.button("继续你的创新之旅", key="start_explore"):
-            st.experimental_rerun()
-# 主函数
+            pass
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # 添加动态效果
+    st.markdown("""
+    <script>
+    const words = document.querySelectorAll('.innovation-word');
+    words.forEach(word => {
+        word.style.animationDelay = `${Math.random() * 2}s`;
+    });
+    </script>
+    """, unsafe_allow_html=True)# 主函数
 def main():
     if 'name' not in st.session_state or not st.session_state.name:
         welcome_screen()
