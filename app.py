@@ -831,17 +831,84 @@ def welcome_screen():
     if 'name' not in st.session_state:
         st.session_state.name = ''
     
+    st.markdown("""
+    <style>
+    .welcome-header {
+        font-size: 3em;
+        color: #4CAF50;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .welcome-subheader {
+        font-size: 1.5em;
+        color: #333;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .welcome-input {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    .welcome-button {
+        display: block;
+        margin: 30px auto;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     if not st.session_state.name:
-        st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
-        name = st.text_input("请输入你的名字：")
-        if st.button("开始探索"):
-            st.session_state.name = name
-    else:
-        st.markdown(f"<h1 class='main-header'>欢迎回来，{st.session_state.name}！</h1>", unsafe_allow_html=True)
-        st.markdown("<p class='sub-header'>准备好开始今天的创新之旅了吗？</p>", unsafe_allow_html=True)
-        if st.button("开始探索"):
-
+        st.markdown("<h1 class='welcome-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
+        st.markdown("<p class='welcome-subheader'>创新从这里开始</p>", unsafe_allow_html=True)
         
+        col1, col2, col3 = st.columns([1,2,1])
+        with col2:
+            name = st.text_input("请输入你的名字：", key="welcome_input", max_chars=50)
+            if st.button("开始探索", key="welcome_button"):
+                if name:
+                    st.session_state.name = name
+                    st.experimental_rerun()
+                else:
+                    st.warning("请输入你的名字")
+    else:
+        st.markdown(f"<h1 class='welcome-header'>欢迎回来，{st.session_state.name}！</h1>", unsafe_allow_html=True)
+        st.markdown("<p class='welcome-subheader'>准备好开始今天的创新之旅了吗？</p>", unsafe_allow_html=True)
+        
+        col1, col2, col3 = st.columns([1,2,1])
+        with col2:
+            if st.button("开始探索", key="start_explore"):
+                st.experimental_rerun()
+    
+    # 添加一些动画效果
+    st.markdown("""
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script>
+    anime({
+        targets: '.welcome-header',
+        translateY: [-50, 0],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1500,
+        delay: 300
+    });
+    anime({
+        targets: '.welcome-subheader',
+        translateY: [-30, 0],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1500,
+        delay: 600
+    });
+    anime({
+        targets: '.welcome-input, .welcome-button',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1500,
+        delay: anime.stagger(200, {start: 900})
+    });
+    </script>
+    """, unsafe_allow_html=True)
+
 # 主函数
 def main():
     if 'name' not in st.session_state or not st.session_state.name:
