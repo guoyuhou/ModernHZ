@@ -361,53 +361,34 @@ def show_home():
         st.error(f"无法加载动画: {str(e)}")
         # 在这里可以添加一些替代内容，比如静态图片或文字描述
 
-    # 添加创新故事轮播
+    # 添加创新故事展示
     st.markdown("<h3 class='section-header'>创新故事</h3>", unsafe_allow_html=True)
     stories = [
-        {"title": "从0到1：我们如何颠覆传统行业", "image": "https://via.placeholder.com/300x200.png?text=Story+1"},
-        {"title": "当AI遇上艺术：跨界创新的奇妙火花", "image": "https://via.placeholder.com/300x200.png?text=Story+2"},
-        {"title": "绿色科技：我们为地球做的那些事", "image": "https://via.placeholder.com/300x200.png?text=Story+3"}
+        {"title": "从0到1：我们如何颠覆传统行业", "content": "这是一个关于我们如何在传统行业中引入创新解决方案的故事..."},
+        {"title": "当AI遇上艺术：跨界创新的奇妙火花", "content": "探索人工智能如何为艺术创作带来新的可能性..."},
+        {"title": "绿色科技：我们为地球做的那些事", "content": "了解我们如何利用技术创新来应对环境挑战..."}
     ]
     
-    story_cards = ""
-    for story in stories:
-        story_cards += f"""
-            <div class="story-card">
-                <img src="{story['image']}" alt="{story['title']}">
-                <h4>{story['title']}</h4>
-            </div>
-        """
+    for i, story in enumerate(stories):
+        with st.expander(f"故事 {i+1}: {story['title']}"):
+            st.write(story['content'])
+            if st.button(f"了解更多 {i+1}", key=f"story_{i}"):
+                st.write("更多详细内容即将推出...")
     
-    st.markdown(f"""
-    <div class="story-carousel">
-        {story_cards}
-    </div>
+    st.markdown("""
     <style>
-    .story-carousel {{
-        display: flex;
-        overflow-x: auto;
-        padding: 20px 0;
-    }}
-    .story-card {{
-        min-width: 250px;
-        margin-right: 20px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 10px;
-        overflow: hidden;
-        transition: transform 0.3s;
-    }}
-    .story-card:hover {{
-        transform: translateY(-5px);
-    }}
-    .story-card img {{
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-    }}
-    .story-card h4 {{
+    .streamlit-expanderHeader {
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 5px;
         padding: 10px;
-        color: var(--primary-color);
-    }}
+        margin-bottom: 10px;
+    }
+    .streamlit-expanderContent {
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 5px;
+        padding: 15px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
