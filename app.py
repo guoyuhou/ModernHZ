@@ -183,81 +183,110 @@ def show_home():
     st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
     st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
 
-    # 添加粒子效果背景
+    # 移除粒子背景效果，添加基本背景
     st.markdown("""
-    <div id="particles-js"></div>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: '#ffffff' },
-        shape: { type: 'circle' },
-        opacity: { value: 0.5, random: false },
-        size: { value: 3, random: true },
-        line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
-        move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
-      },
-      interactivity: {
-        detect_on: 'canvas',
-        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
-        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
-      },
-      retina_detect: true
-    });
-    </script>
     <style>
-    #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: #000000;
-      background-image: url('');
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: 50% 50%;
-      z-index: -1;
+    body {
+        background-color: #000000;
+        color: #ffffff;
     }
     </style>
     """, unsafe_allow_html=True)
 
-    # 添加3D全息投影效果
+    # 增强3D全息投影效果
     st.markdown("""
-    <div class="hologram-container">
-      <div class="hologram">
-        <div class="hologram-text">ModernHZ</div>
-      </div>
+    <div class="page-container">
+        <div class="hologram-container">
+            <div class="hologram">
+                <div class="hologram-text">ModernHZ</div>
+            </div>
+        </div>
+        <div class="cube-container">
+            <div class="cube">
+                <div class="face front">创新</div>
+                <div class="face back">突破</div>
+                <div class="face right">梦想</div>
+                <div class="face left">未来</div>
+                <div class="face top">科技</div>
+                <div class="face bottom">进步</div>
+            </div>
+        </div>
     </div>
     <style>
+    .page-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 400px;
+    }
     @keyframes hologram {
-      0% { transform: rotateX(0deg) rotateY(0deg); }
-      100% { transform: rotateX(360deg) rotateY(360deg); }
+        0% { transform: rotateX(0deg) rotateY(0deg); }
+        100% { transform: rotateX(360deg) rotateY(360deg); }
     }
     .hologram-container {
-      perspective: 1000px;
-      height: 200px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+        perspective: 1000px;
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .hologram {
-      width: 200px;
-      height: 200px;
-      position: relative;
-      transform-style: preserve-3d;
-      animation: hologram 20s infinite linear;
+        width: 300px;
+        height: 300px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: hologram 20s infinite linear;
     }
     .hologram-text {
-      position: absolute;
-      font-size: 24px;
-      color: #00ffff;
-      text-shadow: 0 0 10px #00ffff;
-      opacity: 0.7;
+        position: absolute;
+        font-size: 36px;
+        color: #00ffff;
+        text-shadow: 0 0 10px #00ffff;
+        opacity: 0.7;
     }
-    .hologram-text:nth-child(1) { transform: translateZ(100px); }
-    .hologram-text:nth-child(2) { transform: rotateY(90deg) translateZ(100px); }
-    .hologram-text:nth-child(3) { transform: rotateY(180deg) translateZ(100px); }
-    .hologram-text:nth-child(4) { transform: rotateY(-90deg) translateZ(100px); }
+    .hologram-text:nth-child(1) { transform: translateZ(150px); }
+    .hologram-text:nth-child(2) { transform: rotateY(90deg) translateZ(150px); }
+    .hologram-text:nth-child(3) { transform: rotateY(180deg) translateZ(150px); }
+    .hologram-text:nth-child(4) { transform: rotateY(-90deg) translateZ(150px); }
+    
+    @keyframes rotate {
+        0% { transform: rotateX(0deg) rotateY(0deg); }
+        100% { transform: rotateX(360deg) rotateY(360deg); }
+    }
+    .cube-container {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1000px;
+    }
+    .cube {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rotate 10s infinite linear;
+    }
+    .face {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: rgba(0, 255, 255, 0.1);
+        border: 2px solid #00ffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #00ffff;
+    }
+    .front  { transform: rotateY(0deg) translateZ(100px); }
+    .back   { transform: rotateY(180deg) translateZ(100px); }
+    .right  { transform: rotateY(90deg) translateZ(100px); }
+    .left   { transform: rotateY(-90deg) translateZ(100px); }
+    .top    { transform: rotateX(90deg) translateZ(100px); }
+    .bottom { transform: rotateX(-90deg) translateZ(100px); }
     </style>
     """, unsafe_allow_html=True)
 
