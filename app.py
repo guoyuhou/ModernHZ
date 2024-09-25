@@ -344,17 +344,17 @@ def show_home():
     
     try:
         with col1:
-            lottie_idea = load_lottiefile("path/to/idea_animation.json")  # 替换为实际路径
+            lottie_idea = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_vnikrcia.json")
             st_lottie(lottie_idea, key="idea")
             st.write("创意孵化")
         
         with col2:
-            lottie_dev = load_lottiefile("path/to/development_animation.json")  # 替换为实际路径
+            lottie_dev = load_lottieurl("https://assets3.lottiefiles.com/private_files/lf30_wqypnpu5.json")
             st_lottie(lottie_dev, key="development")
             st.write("快速开发")
         
         with col3:
-            lottie_launch = load_lottiefile("path/to/launch_animation.json")  # 替换为实际路径
+            lottie_launch = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_aao5ezov.json")
             st_lottie(lottie_launch, key="launch")
             st.write("产品发布")
     except Exception as e:
