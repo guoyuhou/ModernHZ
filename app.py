@@ -20,6 +20,7 @@ from streamlit_agraph import agraph, Node, Edge, Config
 from streamlit_drawable_canvas import st_canvas
 import json
 from pathlib import Path
+import openai
 
 # 设置页面配置
 st.set_page_config(page_title="ModernHZ团队", page_icon="🚀", layout="wide")
@@ -120,6 +121,14 @@ st.markdown("""
         border-radius: 10px;
         padding: 1rem;
     }
+    #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -171,8 +180,95 @@ def load_lottiefile(filepath: str):
 
 def show_home():
     st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 class='sub-header'>Be creative, be at the frontier, and be different.</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
     
+    # 添加动态粒子背景
+    st.markdown("""
+    <div id="particles-js"></div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    particlesJS('particles-js', {
+      "particles": {
+        "number": {"value": 80, "density": {"enable": true, "value_area": 800}},
+        "color": {"value": "#ffffff"},
+        "shape": {"type": "circle", "stroke": {"width": 0, "color": "#000000"}, "polygon": {"nb_sides": 5}},
+        "opacity": {"value": 0.5, "random": false, "anim": {"enable": false, "speed": 1, "opacity_min": 0.1, "sync": false}},
+        "size": {"value": 3, "random": true, "anim": {"enable": false, "speed": 40, "size_min": 0.1, "sync": false}},
+        "line_linked": {"enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1},
+        "move": {"enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": {"enable": false, "rotateX": 600, "rotateY": 1200}}
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {"enable": true, "mode": "repulse"},
+          "onclick": {"enable": true, "mode": "push"},
+          "resize": true
+        },
+        "modes": {
+          "grab": {"distance": 400, "line_linked": {"opacity": 1}},
+          "bubble": {"distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3},
+          "repulse": {"distance": 200, "duration": 0.4},
+          "push": {"particles_nb": 4},
+          "remove": {"particles_nb": 2}
+        }
+      },
+      "retina_detect": true
+    });
+    </script>
+    """, unsafe_allow_html=True)
+    
+    # 添加3D旋转立方体展示核心价值观
+    st.markdown("""
+    <div class="scene">
+      <div class="cube">
+        <div class="cube__face cube__face--front">创新</div>
+        <div class="cube__face cube__face--back">卓越</div>
+        <div class="cube__face cube__face--right">协作</div>
+        <div class="cube__face cube__face--left">激情</div>
+        <div class="cube__face cube__face--top">诚信</div>
+        <div class="cube__face cube__face--bottom">责任</div>
+      </div>
+    </div>
+    <style>
+    .scene {
+      width: 200px;
+      height: 200px;
+      perspective: 600px;
+      margin: 40px auto;
+    }
+    .cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: translateZ(-100px);
+      transition: transform 1s;
+      animation: rotate 20s infinite linear;
+    }
+    .cube__face {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 2px solid #fff;
+      line-height: 200px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+    }
+    .cube__face--front  { background: hsla(0, 100%, 50%, 0.7); transform: rotateY(0deg) translateZ(100px); }
+    .cube__face--right  { background: hsla(60, 100%, 50%, 0.7); transform: rotateY(90deg) translateZ(100px); }
+    .cube__face--back   { background: hsla(120, 100%, 50%, 0.7); transform: rotateY(180deg) translateZ(100px); }
+    .cube__face--left   { background: hsla(180, 100%, 50%, 0.7); transform: rotateY(-90deg) translateZ(100px); }
+    .cube__face--top    { background: hsla(240, 100%, 50%, 0.7); transform: rotateX(90deg) translateZ(100px); }
+    .cube__face--bottom { background: hsla(300, 100%, 50%, 0.7); transform: rotateX(-90deg) translateZ(100px); }
+    @keyframes rotate {
+      from { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg); }
+      to { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg); }
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     col1, col2 = st.columns([2, 1])
     with col1:
         st.markdown("""
@@ -226,20 +322,11 @@ def show_home():
     st.markdown("<h3 class='section-header'>实时公司指标</h3>", unsafe_allow_html=True)
     
     # 模拟实时数据
-    periods = 100
     df = pd.DataFrame({
-        'time': pd.date_range(start='2023-01-01', periods=periods, freq='D'),
-        'users': np.cumsum(np.random.normal(10, 5, periods)) + 100,
-        'revenue': np.cumsum(np.random.normal(100, 50, periods)) + 1000
+        'time': pd.date_range(start='2023-01-01', periods=100, freq='D'),
+        'users': np.random.randint(100, 1000, 100),
+        'revenue': np.random.randint(1000, 10000, 100)
     })
-    
-    # 添加一些波动
-    df['users'] += np.sin(np.arange(periods) * 0.2) * 50
-    df['revenue'] += np.sin(np.arange(periods) * 0.1) * 500
-    
-    # 确保数值为正
-    df['users'] = df['users'].clip(lower=0)
-    df['revenue'] = df['revenue'].clip(lower=0)
     
     chart = alt.Chart(df).transform_fold(
         ['users', 'revenue'],
@@ -255,21 +342,24 @@ def show_home():
     st.markdown("<h3 class='section-header'>我们的创新过程</h3>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     
-    animations = [
-        {"key": "idea", "title": "创意孵化", "url": "https://assets9.lottiefiles.com/packages/lf20_ktwnwv5m.json"},
-        {"key": "development", "title": "快速开发", "url": "https://assets2.lottiefiles.com/packages/lf20_jtbfg2nb.json"},
-        {"key": "launch", "title": "产品发布", "url": "https://assets3.lottiefiles.com/packages/lf20_xyadoh9h.json"}
-    ]
-    
-    for col, anim in zip([col1, col2, col3], animations):
-        with col:
-            lottie_anim = load_lottieurl(anim["url"])
-            if lottie_anim:
-                st_lottie(lottie_anim, key=anim["key"], height=200, quality="low", speed=1)
-                st.markdown(f"<h4 style='text-align: center;'>{anim['title']}</h4>", unsafe_allow_html=True)
-            else:
-                st.warning(f"无法加载 {anim['title']} 动画")
-
+    try:
+        with col1:
+            lottie_idea = load_lottiefile("path/to/idea_animation.json")  # 替换为实际路径
+            st_lottie(lottie_idea, key="idea")
+            st.write("创意孵化")
+        
+        with col2:
+            lottie_dev = load_lottiefile("path/to/development_animation.json")  # 替换为实际路径
+            st_lottie(lottie_dev, key="development")
+            st.write("快速开发")
+        
+        with col3:
+            lottie_launch = load_lottiefile("path/to/launch_animation.json")  # 替换为实际路径
+            st_lottie(lottie_launch, key="launch")
+            st.write("产品发布")
+    except Exception as e:
+        st.error(f"无法加载动画: {str(e)}")
+        # 在这里可以添加一些替代内容，比如静态图片或文字描述
 # 团队介绍
 def show_team():
     st.markdown("<h1 class='main-header'>团队介绍</h1>", unsafe_allow_html=True)
@@ -521,12 +611,89 @@ def video_frame_callback(frame):
     return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 def show_ai_assistant():
-    st.markdown("<h1 class='main-header'>AI助手</h1>", unsafe_allow_html=True)
-    st.markdown("<div class='content card'>有任何问题？问问我们的AI助手吧！</div>", unsafe_allow_html=True)
+    st.markdown("<h1 class='main-header'>AI创新助手</h1>", unsafe_allow_html=True)
+    st.markdown("<div class='content card'>有任何创新想法或问题？让AI助手帮你梳理思路！</div>", unsafe_allow_html=True)
     
-    user_input = st.text_input("输入你的问题：")
-    if user_input:
-        st.write("AI助手：抱歉，AI助手功能暂时不可用。我们正在努力修复这个问题。请稍后再试。")
+    # 初始化对话历史
+    if 'messages' not in st.session_state:
+        st.session_state.messages = []
+
+    # 显示对话历史
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # 用户输入
+    if prompt := st.chat_input("你的问题是？"):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            full_response = ""
+            for response in openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "你是ModernHZ团队的AI创新助手，专门帮助用户激发创意、解决创新难题。"},
+                    {"role": "user", "content": prompt},
+                ],
+                stream=True,
+            ):
+                full_response += response.choices[0].delta.get("content", "")
+                message_placeholder.markdown(full_response + "▌")
+            message_placeholder.markdown(full_response)
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+    # 添加思维导图生成功能
+    if st.button("生成思维导图"):
+        # 这里可以集成一个思维导图生成API
+        st.image("path_to_generated_mindmap.png", caption="基于对话生成的思维导图")
+
+    # 添加创意评分系统
+    if st.button("评估我的创意"):
+        # 这里可以使用NLP模型来评估创意的新颖性、可行性等
+        st.markdown("""
+        <div class="idea-score">
+            <h3>创意评分</h3>
+            <div class="score-item">
+                <span>新颖性</span>
+                <div class="progress-bar" style="width: 85%;"></div>
+                <span>85%</span>
+            </div>
+            <div class="score-item">
+                <span>可行性</span>
+                <div class="progress-bar" style="width: 70%;"></div>
+                <span>70%</span>
+            </div>
+            <div class="score-item">
+                <span>市场潜力</span>
+                <div class="progress-bar" style="width: 90%;"></div>
+                <span>90%</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+# 添加新的CSS样式
+st.markdown("""
+<style>
+.idea-score {
+    background-color: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+.score-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.progress-bar {
+    height: 20px;
+    background-color: #4CAF50;
+    margin: 0 10px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 def show_dashboard():
     st.markdown("<h1 class='main-header'>实时数据仪表板</h1>", unsafe_allow_html=True)
@@ -543,110 +710,101 @@ def show_dashboard():
 
 def innovation_challenge():
     st.markdown("<h2 class='section-header'>创新挑战</h2>", unsafe_allow_html=True)
-    st.write("欢迎参与ModernHZ的创新挑战！这个游戏将测试你的直觉和创新思维。")
+    st.write("欢迎来到ModernHZ的创新实验室！")
 
-    # 初始化会话状态
-    if 'challenge_number' not in st.session_state:
-        st.session_state.challenge_number = random.randint(1, 100)
-        st.session_state.attempts = 0
-        st.session_state.hints = []
-        st.session_state.game_over = False
+    # 初始化游戏状态
+    if 'game_state' not in st.session_state:
+        st.session_state.game_state = {
+            'level': 1,
+            'score': 0,
+            'challenges_completed': 0,
+            'current_challenge': generate_challenge()
+        }
 
-    if not st.session_state.game_over:
-        guess = st.number_input("你的创新指数（1-100）：", min_value=1, max_value=100)
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            if st.button("提交猜测"):
-                st.session_state.attempts += 1
-                if guess == st.session_state.challenge_number:
-                    st.success(f"恭喜你找到了最佳创新指数！你用了{st.session_state.attempts}次尝试。")
-                    st.session_state.game_over = True
-                elif guess < st.session_state.challenge_number:
-                    st.warning("创新度不够，再大胆一些！")
-                    st.session_state.hints.append(f"第{st.session_state.attempts}次：{guess} - 创新度不够")
-                else:
-                    st.warning("创新过头了，需要更务实一些！")
-                    st.session_state.hints.append(f"第{st.session_state.attempts}次：{guess} - 创新过头了")
-        
-        with col2:
-            if st.button("获取灵感"):
-                inspiration = random.choice([
-                    "想想未来科技可能带来的改变。",
-                    "考虑如何将不同领域的知识结合起来。",
-                    "关注用户的痛点，寻找创新的机会。",
-                    "大胆假设，小心求证。",
-                    "有时候，减法比加法更能带来创新。"
-                ])
-                st.info(f"灵感：{inspiration}")
-        
-        with col3:
-            if st.button("重新挑战"):
-                st.session_state.challenge_number = random.randint(1, 100)
-                st.session_state.attempts = 0
-                st.session_state.hints = []
-                st.session_state.game_over = False
-                st.experimental_rerun()
+    # 显示当前等级和分数
+    st.markdown(f"""
+    <div class='game-stats'>
+        <span>等级: {st.session_state.game_state['level']}</span>
+        <span>分数: {st.session_state.game_state['score']}</span>
+    </div>
+    """, unsafe_allow_html=True)
 
-    # 显示历史记录
-    if st.session_state.hints:
-        st.markdown("### 创新历程")
-        for hint in st.session_state.hints:
-            st.write(hint)
+    # 显示当前挑战
+    st.markdown(f"""
+    <div class='challenge-card'>
+        <h3>当前挑战：{st.session_state.game_state['current_challenge']['title']}</h3>
+        <p>{st.session_state.game_state['current_challenge']['description']}</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    # 显示创新排行榜
-    st.markdown("### 创新排行榜")
-    leaderboard = {
-        "爱因斯坦": 3,
-        "特斯拉": 4,
-        "乔布斯": 5,
-        "马斯克": 6
-    }
-    for name, score in leaderboard.items():
-        st.write(f"{name}: {score}次尝试")
+    # 用户输入
+    user_solution = st.text_area("你的创新方案：")
 
-    # 提供一些创新建议
-    st.markdown("### 创新小贴士")
-    st.write("1. 保持好奇心，不断学习新知识。")
-    st.write("2. 勇于挑战常规，尝试不同的思路。")
-    st.write("3. 与团队合作，集思广益。")
-    st.write("4. 关注用户需求，以解决问题为导向。")
-    st.write("5. 拥抱失败，从错误中学习。")
+    if st.button("提交方案"):
+        score = evaluate_solution(user_solution, st.session_state.game_state['current_challenge'])
+        st.session_state.game_state['score'] += score
+        st.session_state.game_state['challenges_completed'] += 1
 
-    # 添加创新项目展示
-    st.markdown("<h2 class='section-header'>创新项目展示</h2>", unsafe_allow_html=True)
-    projects = [
-        {"name": "AI助手", "description": "基于最新NLP技术的智能助手", "progress": 75},
-        {"name": "智能家居系统", "description": "整合IoT设备的智能家居解决方案", "progress": 60},
-        {"name": "AR教育平台", "description": "利用增强现实技术的互动教育平台", "progress": 40}
+        if st.session_state.game_state['challenges_completed'] % 3 == 0:
+            st.session_state.game_state['level'] += 1
+            st.success(f"恭喜你晋级到 {st.session_state.game_state['level']} 级创新大师！")
+
+        st.session_state.game_state['current_challenge'] = generate_challenge()
+        st.experimental_rerun()
+
+    # 创新排行榜
+    show_leaderboard()
+
+def generate_challenge():
+    challenges = [
+        {"title": "未来城市", "description": "设计一个解决未来城市交通拥堵问题的创新方案。"},
+        {"title": "环保科技", "description": "提出一个能够显著减少塑料污染的创新技术或产品。"},
+        {"title": "教育革新", "description": "构思一种利用VR/AR技术提升学习体验的创新教育方法。"},
+        # 添加更多挑战...
     ]
-    
-    for project in projects:
-        st.markdown(f"""
-        <div class='card'>
-        <h3>{project['name']}</h3>
-        <p>{project['description']}</p>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: {project['progress']}%;" aria-valuenow="{project['progress']}" aria-valuemin="0" aria-valuemax="100">{project['progress']}%</div>
-        </div>
-        </div>
-        """, unsafe_allow_html=True)
+    return random.choice(challenges)
 
-    st.markdown("<h3 class='section-header'>创意涂鸦板</h3>", unsafe_allow_html=True)
-    st.write("在这里画出你的创新想法！")
-    
-    canvas_result = st_canvas(
-        fill_color="rgba(255, 165, 0, 0.3)",
-        stroke_width=3,
-        stroke_color="#e00",
-        background_color="#eee",
-        height=300,
-        drawing_mode="freedraw",
-        key="canvas",
-    )
-    
-    if canvas_result.image_data is not None:
-        st.image(canvas_result.image_data)
+def evaluate_solution(solution, challenge):
+    # 这里可以集成更复杂的评分系统，如NLP分析等
+    keywords = ["创新", "可行", "影响力", "可持续"]
+    score = sum(10 for keyword in keywords if keyword in solution.lower())
+    return min(score, 100)  # 最高100分
+
+def show_leaderboard():
+    st.markdown("<h3>创新英雄榜</h3>", unsafe_allow_html=True)
+    leaderboard = [
+        {"name": "爱因斯坦", "score": 1000},
+        {"name": "达芬奇", "score": 950},
+        {"name": "特斯拉", "score": 900},
+        {"name": st.session_state.name, "score": st.session_state.game_state['score']}
+    ]
+    leaderboard.sort(key=lambda x: x['score'], reverse=True)
+    for i, player in enumerate(leaderboard[:5], 1):
+        st.markdown(f"{i}. {player['name']} - {player['score']}分")
+
+# 在CSS中添加新的样式
+st.markdown("""
+<style>
+.game-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.game-stats span {
+    font-size: 18px;
+    font-weight: bold;
+}
+.challenge-card {
+    background-color: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 def change_theme():
     themes = {
@@ -678,13 +836,12 @@ def welcome_screen():
         name = st.text_input("请输入你的名字：")
         if st.button("开始探索"):
             st.session_state.name = name
-            st.experimental_rerun()
     else:
         st.markdown(f"<h1 class='main-header'>欢迎回来，{st.session_state.name}！</h1>", unsafe_allow_html=True)
         st.markdown("<p class='sub-header'>准备好开始今天的创新之旅了吗？</p>", unsafe_allow_html=True)
         if st.button("开始探索"):
-            st.experimental_rerun()
 
+        
 # 主函数
 def main():
     if 'name' not in st.session_state or not st.session_state.name:
