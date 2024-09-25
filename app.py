@@ -183,52 +183,64 @@ def show_home():
     st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
     st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
     
-    # 使用CSS实现动态粒子背景效果
+    # 使用Streamlit实现动态背景效果
     st.markdown("""
     <style>
-    #particles-js {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
+    .stApp {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
     }
-    .particle {
-        position: absolute;
-        border-radius: 50%;
-    }
-    @keyframes move {
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
         100% {
-            transform: translate3d(0, 0, 1px) rotate(360deg);
+            background-position: 0% 50%;
         }
     }
     </style>
-    <div id="particles-js"></div>
-    <script>
-    function createParticle(x, y) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        const size = Math.random() * 5 + 1;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        particle.style.left = `${x}px`;
-        particle.style.top = `${y}px`;
-        particle.style.animation = `move ${Math.random() * 4 + 4}s linear infinite`;
-        particle.style.transform = `translate3d(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px, 0)`;
-        document.getElementById('particles-js').appendChild(particle);
-    }
-
-    function createParticles(count) {
-        for (let i = 0; i < count; i++) {
-            createParticle(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
-        }
-    }
-
-    createParticles(50);
-    </script>
     """, unsafe_allow_html=True)
+
+    # 添加动态文字效果
+    st.markdown("""
+    <style>
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+    .typing-effect {
+        overflow: hidden;
+        border-right: .15em solid orange;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: .15em;
+        animation: 
+            typing 3.5s steps(40, end),
+            blink-caret .75s step-end infinite;
+    }
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: orange; }
+    }
+    </style>
+    <h3 class="typing-effect">欢迎来到创新无限的世界</h3>
+    """, unsafe_allow_html=True)
+
+    # 添加动态图标
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown("### 创新")
+        st_lottie(load_lottiefile("path_to_innovation_lottie.json"), height=200)
+    with col2:
+        st.markdown("### 协作")
+        st_lottie(load_lottiefile("path_to_collaboration_lottie.json"), height=200)
+    with col3:
+        st.markdown("### 卓越")
+        st_lottie(load_lottiefile("path_to_excellence_lottie.json"), height=200)
     
     # 添加3D旋转立方体展示核心价值观
     st.markdown("""
