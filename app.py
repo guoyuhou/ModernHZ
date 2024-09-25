@@ -56,7 +56,7 @@ def show_home():
         </div>
         """, unsafe_allow_html=True)
     with col2:
-        st.image("team_image.jpg", caption="ModernHZ团队", use_column_width=True)
+        st.image("images/SpaceX-2.jpg", caption="ModernHZ团队", use_column_width=True)
     
     st.markdown("<h3 class='section-header'>我们的愿景</h3>", unsafe_allow_html=True)
     st.video("vision_video.mp4")
