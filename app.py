@@ -198,7 +198,10 @@ def show_home():
     <div class="page-container">
         <div class="hologram-container">
             <div class="hologram">
-                <div class="hologram-text">ModernHZ</div>
+                <div class="hologram-text">Modern</div>
+                <div class="hologram-text">HZ</div>
+                <div class="hologram-text">创新</div>
+                <div class="hologram-text">未来</div>
             </div>
         </div>
         <div class="cube-container">
@@ -240,10 +243,15 @@ def show_home():
     }
     .hologram-text {
         position: absolute;
-        font-size: 28px;
+        font-size: 24px;
         color: #00cccc;
         text-shadow: 0 0 10px #00cccc;
         opacity: 0.8;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .hologram-text:nth-child(1) { transform: translateZ(100px); }
     .hologram-text:nth-child(2) { transform: rotateY(90deg) translateZ(100px); }
