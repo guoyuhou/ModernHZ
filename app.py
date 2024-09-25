@@ -191,7 +191,38 @@ def show_home():
         st_lottie(lottie_coding, height=300, key="coding")
     
     st.markdown("<h3 class='section-header'>我们的愿景</h3>", unsafe_allow_html=True)
-    st.video("video/elon_mask.mp4")
+    
+    vision_col1, vision_col2, vision_col3 = st.columns(3)
+    
+    with vision_col1:
+        st.markdown("""
+        <div class='vision-card'>
+            <h4>🚀 突破界限</h4>
+            <p>我们致力于打破传统思维的束缚，探索未知领域，创造前所未有的可能性。</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with vision_col2:
+        st.markdown("""
+        <div class='vision-card highlight'>
+            <h4>🌍 改变世界</h4>
+            <p>我们的目标是通过创新科技，解决人类面临的重大挑战，让世界变得更美好。</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with vision_col3:
+        st.markdown("""
+        <div class='vision-card'>
+            <h4>🌟 激发潜能</h4>
+            <p>我们相信每个人都有无限潜力，我们的产品将帮助人们释放创造力，实现自我价值。</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class='vision-quote'>
+        "想象力比知识更重要。知识是有限的，而想象力概括着世界的一切，推动着进步，并且是知识进化的源泉。" —— 阿尔伯特·爱因斯坦
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("<h3 class='section-header'>实时公司指标</h3>", unsafe_allow_html=True)
     
