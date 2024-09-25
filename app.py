@@ -219,7 +219,7 @@ def show_home():
     animations = [
         {"key": "idea", "title": "创意孵化", "url": "https://assets9.lottiefiles.com/packages/lf20_ktwnwv5m.json"},
         {"key": "development", "title": "快速开发", "url": "https://assets2.lottiefiles.com/packages/lf20_jtbfg2nb.json"},
-        {"key": "launch", "title": "产品发布", "url": "https://assets5.lottiefiles.com/packages/lf20_aao5ezgm.json"}
+        {"key": "launch", "title": "产品发布", "url": "https://assets5.lottiefiles.com/packages/lf20_9e8spm4o.json"}
     ]
     
     for col, anim in zip([col1, col2, col3], animations):
