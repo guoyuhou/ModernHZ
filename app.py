@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-
+import os
 def main():
     st.set_page_config(page_title="ModernHZ团队", page_icon="🚀", layout="wide")
     
@@ -23,12 +23,12 @@ def show_home():
     
     st.write("""
     ModernHZ是一个致力于创新和独特产品开发的团队。我们的目标是:
-    1. 做有意义的事情
+    1. 做有意义的事情   
     2. 创造创新性和与众不同的产品
     3. 吸引有同样梦想的人
     """)
     
-    st.image("path_to_team_image.jpg", caption="ModernHZ团队", use_column_width=True)
+    st.image("images/SpaceX-2.jpg", caption="ModernHZ团队", use_column_width=True)
 
 def show_team():
     st.title("团队介绍")
