@@ -194,29 +194,29 @@ def show_home():
     
     vision_col1, vision_col2, vision_col3 = st.columns(3)
     
-    with vision_col1:
-        st.markdown("""
-        <div class='vision-card'>
-            <h4>🚀 突破界限</h4>
-            <p>我们致力于打破传统思维的束缚，探索未知领域，创造前所未有的可能性。</p>
-        </div>
-        """, unsafe_allow_html=True)
+    vision_animations = [
+        {"key": "breakthrough", "title": "突破界限", "url": "https://assets9.lottiefiles.com/packages/lf20_ksxvgzlm.json"},
+        {"key": "change_world", "title": "改变世界", "url": "https://assets1.lottiefiles.com/packages/lf20_q5pk6p1k.json"},
+        {"key": "potential", "title": "激发潜能", "url": "https://assets2.lottiefiles.com/packages/lf20_gnh15oqz.json"}
+    ]
     
-    with vision_col2:
-        st.markdown("""
-        <div class='vision-card highlight'>
-            <h4>🌍 改变世界</h4>
-            <p>我们的目标是通过创新科技，解决人类面临的重大挑战，让世界变得更美好。</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with vision_col3:
-        st.markdown("""
-        <div class='vision-card'>
-            <h4>🌟 激发潜能</h4>
-            <p>我们相信每个人都有无限潜力，我们的产品将帮助人们释放创造力，实现自我价值。</p>
-        </div>
-        """, unsafe_allow_html=True)
+    for col, anim in zip([vision_col1, vision_col2, vision_col3], vision_animations):
+        with col:
+            lottie_anim = load_lottieurl(anim["url"])
+            if lottie_anim:
+                st_lottie(lottie_anim, key=anim["key"], height=150, quality="low", speed=1)
+                st.markdown(f"""
+                <div class='vision-card'>
+                    <h4>{'🚀' if anim['title'] == '突破界限' else '🌍' if anim['title'] == '改变世界' else '🌟'} {anim['title']}</h4>
+                    <p>{
+                        "我们致力于打破传统思维的束缚，探索未知领域，创造前所未有的可能性。" if anim['title'] == '突破界限' else
+                        "我们的目标是通过创新科技，解决人类面临的重大挑战，让世界变得更美好。" if anim['title'] == '改变世界' else
+                        "我们相信每个人都有无限潜力，我们的产品将帮助人们释放创造力，实现自我价值。"
+                    }</p>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.warning(f"无法加载 {anim['title']} 动画")
     
     st.markdown("""
     <div class='vision-quote'>
