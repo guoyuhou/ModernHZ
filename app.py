@@ -14,7 +14,7 @@ def main():
         show_team()
     elif page == "项目展示":
         show_projects()
-    elif page "加入我们":
+    elif page == "加入我们":
         show_join()
 
 def show_home():
