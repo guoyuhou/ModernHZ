@@ -133,12 +133,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-import streamlit as st
-from streamlit_lottie import st_lottie
-import requests
-from streamlit_option_menu import option_menu
-import random
-
 def load_lottieurl(url: str):
     r = requests.get(url)
     if r.status_code != 200:
@@ -147,7 +141,7 @@ def load_lottieurl(url: str):
 
 def sidebar():
     with st.sidebar:
-        st.markdown("""
+        st.markdown(""" 
         <style>
         .sidebar .sidebar-content {
             background-image: linear-gradient(
@@ -201,7 +195,6 @@ def sidebar():
 
         st.markdown('<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">', unsafe_allow_html=True)
 
-        st.image("images/SpaceX-2.jpg", width=150)
         st.markdown('<h1 class="menu-title">ModernHZ创意之旅</h1>', unsafe_allow_html=True)
 
         # 添加Lottie动画
