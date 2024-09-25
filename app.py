@@ -183,43 +183,100 @@ def show_home():
     st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
     st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
 
-    # 添加动态文字效果
+    # 添加粒子效果背景
     st.markdown("""
+    <div id="particles-js"></div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: '#ffffff' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.5, random: false },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+            move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+        },
+        interactivity: {
+            detect_on: 'canvas',
+            events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+            modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+        },
+        retina_detect: true
+    });
+    </script>
     <style>
-    @keyframes typing {
-        from { width: 0 }
-        to { width: 100% }
-    }
-    .typing-effect {
-        overflow: hidden;
-        border-right: .15em solid orange;
-        white-space: nowrap;
-        margin: 0 auto;
-        letter-spacing: .15em;
-        animation: 
-            typing 3.5s steps(40, end),
-            blink-caret .75s step-end infinite;
-    }
-    @keyframes blink-caret {
-        from, to { border-color: transparent }
-        50% { border-color: orange; }
+    #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
     }
     </style>
-    <h3 class="typing-effect">欢迎来到创新无限的世界</h3>
     """, unsafe_allow_html=True)
 
-    # 添加动态图标
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown("### 创新")
-        st_lottie(load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_jtbfg2nb.json"), height=200)
-    with col2:
-        st.markdown("### 协作")
-        st_lottie(load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_2wrjlrbz.json"), height=200)
-    with col3:
-        st.markdown("### 卓越")
-        st_lottie(load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_aao5ezov.json"), height=200)
-    
+    # 添加3D悬浮卡片效果
+    st.markdown("""
+    <div class="container">
+        <div class="card" style="--i:1">
+            <h3>创新</h3>
+            <p>突破界限，创造未来</p>
+        </div>
+        <div class="card" style="--i:2">
+            <h3>协作</h3>
+            <p>团结一心，共创佳绩</p>
+        </div>
+        <div class="card" style="--i:3">
+            <h3>卓越</h3>
+            <p>追求完美，永不止步</p>
+        </div>
+    </div>
+    <style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 50px;
+        perspective: 1000px;
+    }
+    .card {
+        position: relative;
+        width: 200px;
+        height: 250px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        transform-style: preserve-3d;
+        transform: rotateY(calc(var(--i) * 120deg)) translateZ(350px);
+        transition: 0.5s;
+    }
+    .card:hover {
+        transform: rotateY(calc(var(--i) * 120deg)) translateZ(400px);
+    }
+    .card h3 {
+        font-size: 1.5em;
+        color: #fff;
+        text-align: center;
+    }
+    .card p {
+        font-size: 1em;
+        color: #fff;
+        text-align: center;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     # 添加3D旋转立方体展示核心价值观
     st.markdown("""
     <div class="scene">
