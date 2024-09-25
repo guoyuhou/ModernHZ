@@ -15,7 +15,6 @@ import av
 import time
 import altair as alt
 import numpy as np
-import openai
 
 # 设置页面配置
 st.set_page_config(page_title="ModernHZ团队", page_icon="🚀", layout="wide")
@@ -430,12 +429,7 @@ def show_ai_assistant():
     
     user_input = st.text_input("输入你的问题：")
     if user_input:
-        response = openai.Completion.create(
-            engine="text-davinci-002",
-            prompt=f"Human: {user_input}\nAI:",
-            max_tokens=150
-        )
-        st.write("AI助手：", response.choices[0].text.strip())
+        st.write("AI助手：抱歉，AI助手功能暂时不可用。我们正在努力修复这个问题。请稍后再试。")
 
 def show_dashboard():
     st.markdown("<h1 class='main-header'>实时数据仪表板</h1>", unsafe_allow_html=True)
