@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from streamlit_option_menu import option_menu
 import json
+import pydeck as pdk
 
 # 设置页面配置
 st.set_page_config(page_title="ModernHZ团队", page_icon="🚀", layout="wide")
@@ -242,6 +243,43 @@ def show_projects():
     fig.update_yaxes(autorange="reversed")
     st.plotly_chart(fig, use_container_width=True)
 
+    # 在项目展示页面添加3D地图
+    st.subheader("全球项目分布")
+    
+    chart_data = pd.DataFrame({
+        'lat': [40.7128, 37.7749, 51.5074],
+        'lon': [-74.0060, -122.4194, -0.1278],
+        'project': ['纽约项目', '旧金山项目', '伦敦项目'],
+        'size': [100, 150, 80]
+    })
+
+    view_state = pdk.ViewState(
+        latitude=chart_data["lat"].mean(),
+        longitude=chart_data["lon"].mean(),
+        zoom=3,
+        pitch=50,
+    )
+
+    layer = pdk.Layer(
+        'ScatterplotLayer',
+        data=chart_data,
+        get_position='[lon, lat]',
+        get_color='[200, 30, 0, 160]',
+        get_radius='size',
+        pickable=True
+    )
+
+    tool_tip = {"html": "项目: {project}", "style": {"backgroundColor": "steelblue", "color": "white"}}
+
+    deck = pdk.Deck(
+        map_style='mapbox://styles/mapbox/dark-v10',
+        initial_view_state=view_state,
+        layers=[layer],
+        tooltip=tool_tip
+    )
+
+    st.pydeck_chart(deck)
+
 # 知识库
 def show_knowledge_base():
     st.markdown("<h1 class='main-header'>知识库</h1>", unsafe_allow_html=True)
@@ -268,7 +306,7 @@ def show_knowledge_base():
     from wordcloud import WordCloud
     import matplotlib.pyplot as plt
 
-    text = "AI 机器学习 深度学习 神经网络 自然语言处理 计算机视觉 强化学习 数据挖掘 ���数据 云计算"
+    text = "AI 机器学习 深度学习 神经网络 自然语言处理 计算机视觉 强化学习 数据挖掘 数据 云计算"
     wordcloud = WordCloud(width=800, height=400, background_color='white').generate(text)
 
     fig, ax = plt.subplots()
