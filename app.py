@@ -173,6 +173,14 @@ def sidebar():
             </script>
             """, unsafe_allow_html=True)
         
+        # 添加个性化设置
+        st.markdown("### 个性化设置")
+        user_interests = st.multiselect("选择你感兴趣的领域", ["AI", "IoT", "区块链", "VR/AR", "可持续发展"])
+        
+        # 根据用户兴趣调整内容展示
+        if user_interests:
+            st.session_state.user_interests = user_interests
+        
     return selected
 
 def load_lottiefile(filepath: str):
@@ -180,28 +188,11 @@ def load_lottiefile(filepath: str):
         return json.load(f)
 
 def show_home():
-    components.html("""
-    <div id="particles-js"></div>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: '#ffffff' },
-        shape: { type: 'circle' },
-        opacity: { value: 0.5, random: false },
-        size: { value: 3, random: true },
-        line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
-        move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
-      },
-      interactivity: {
-        detect_on: 'canvas',
-        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
-        modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
-      },
-      retina_detect: true
-    });
-    </script>
+    st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
+    st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
+    
+    # 使用CSS实现动态粒子背景效果
+    st.markdown("""
     <style>
     #particles-js {
         position: fixed;
@@ -211,11 +202,41 @@ def show_home():
         height: 100%;
         z-index: -1;
     }
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+    }
+    @keyframes move {
+        100% {
+            transform: translate3d(0, 0, 1px) rotate(360deg);
+        }
+    }
     </style>
-    """, height=0)
+    <div id="particles-js"></div>
+    <script>
+    function createParticle(x, y) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 5 + 1;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.animation = `move ${Math.random() * 4 + 4}s linear infinite`;
+        particle.style.transform = `translate3d(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px, 0)`;
+        document.getElementById('particles-js').appendChild(particle);
+    }
 
-    st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
+    function createParticles(count) {
+        for (let i = 0; i < count; i++) {
+            createParticle(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+        }
+    }
+
+    createParticles(50);
+    </script>
+    """, unsafe_allow_html=True)
     
     # 添加3D旋转立方体展示核心价值观
     st.markdown("""
@@ -1020,15 +1041,6 @@ def change_theme():
         }}
     </style>
     """, unsafe_allow_html=True)
-import streamlit as st
-import random
-
-import streamlit as st
-import random
-
-import streamlit as st
-import random
-
 def welcome_screen():
     if 'name' not in st.session_state:
         st.session_state.name = ''
