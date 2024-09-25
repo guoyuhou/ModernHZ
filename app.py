@@ -9,6 +9,12 @@ import json
 import random
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+import pydeck as pdk
+from streamlit_webrtc import webrtc_streamer
+import av
+import openai
+from streamlit_extras.stqdm import stqdm
+import time
 
 # 设置页面配置
 st.set_page_config(page_title="ModernHZ团队", page_icon="🚀", layout="wide")
@@ -126,8 +132,8 @@ def sidebar():
         st.image("images/SpaceX-2.jpg", width=150)
         selected = option_menu(
             menu_title="ModernHZ导航",
-            options=["主页", "团队介绍", "项目展示", "知识库", "加入我们"],
-            icons=["house", "people", "kanban", "book", "envelope"],
+            options=["主页", "团队介绍", "项目展示", "知识库", "加入我们", "实时协作", "AI助手", "数据仪表板", "创新挑战"],
+            icons=["house", "people", "kanban", "book", "envelope", "camera-video", "robot", "bar-chart", "trophy"],
             menu_icon="rocket",
             default_index=0,
             styles={
@@ -259,6 +265,43 @@ def show_projects():
     fig.update_yaxes(autorange="reversed")
     st.plotly_chart(fig, use_container_width=True)
 
+    # 在项目展示页面添加3D地图
+    st.subheader("全球项目分布")
+    
+    chart_data = pd.DataFrame({
+        'lat': [40.7128, 37.7749, 51.5074],
+        'lon': [-74.0060, -122.4194, -0.1278],
+        'project': ['纽约项目', '旧金山项目', '伦敦项目'],
+        'size': [100, 150, 80]
+    })
+
+    view_state = pdk.ViewState(
+        latitude=chart_data["lat"].mean(),
+        longitude=chart_data["lon"].mean(),
+        zoom=3,
+        pitch=50,
+    )
+
+    layer = pdk.Layer(
+        'ScatterplotLayer',
+        data=chart_data,
+        get_position='[lon, lat]',
+        get_color='[200, 30, 0, 160]',
+        get_radius='size',
+        pickable=True
+    )
+
+    tool_tip = {"html": "项目: {project}", "style": {"backgroundColor": "steelblue", "color": "white"}}
+
+    deck = pdk.Deck(
+        map_style='mapbox://styles/mapbox/dark-v10',
+        initial_view_state=view_state,
+        layers=[layer],
+        tooltip=tool_tip
+    )
+
+    st.pydeck_chart(deck)
+
 # 知识库
 def show_knowledge_base():
     st.markdown("<h1 class='main-header'>知识库</h1>", unsafe_allow_html=True)
@@ -330,8 +373,143 @@ def guess_number_game():
     
     number = random.randint(1, 100)
 
+def show_collaboration():
+    st.markdown("<h1 class='main-header'>实时协作</h1>", unsafe_allow_html=True)
+    st.markdown("<div class='content card'>在这里，团队成员可以进行实时视频会议和协作。</div>", unsafe_allow_html=True)
+    
+    webrtc_streamer(key="example", video_frame_callback=video_frame_callback)
+
+def video_frame_callback(frame):
+    img = frame.to_ndarray(format="bgr24")
+    return av.VideoFrame.from_ndarray(img, format="bgr24")
+
+def show_ai_assistant():
+    st.markdown("<h1 class='main-header'>AI助手</h1>", unsafe_allow_html=True)
+    st.markdown("<div class='content card'>有任何问题？问问我们的AI助手吧！</div>", unsafe_allow_html=True)
+    
+    user_input = st.text_input("输入你的问题：")
+    if user_input:
+        response = ai_assistant(user_input)
+        st.write("AI助手：", response)
+
+openai.api_key = 'your-api-key'
+
+def ai_assistant(prompt):
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=150
+    )
+    return response.choices[0].text.strip()
+
+def show_dashboard():
+    st.markdown("<h1 class='main-header'>实时数据仪表板</h1>", unsafe_allow_html=True)
+    
+    progress_bars = []
+    for i in range(5):
+        progress_bars.append(stqdm(total=100, desc=f"指标 {i+1}"))
+    
+    for _ in range(100):
+        for bar in progress_bars:
+            bar.update(random.randint(1, 5))
+        time.sleep(0.1)
+
+def innovation_challenge():
+    st.markdown("<h2 class='section-header'>创新挑战</h2>", unsafe_allow_html=True)
+    st.write("欢迎参与ModernHZ的创新挑战！这个游戏将测试你的直觉和创新思维。")
+
+    # 初始化会话状态
+    if 'challenge_number' not in st.session_state:
+        st.session_state.challenge_number = random.randint(1, 100)
+        st.session_state.attempts = 0
+        st.session_state.hints = []
+        st.session_state.game_over = False
+
+    if not st.session_state.game_over:
+        guess = st.number_input("你的创新指数（1-100）：", min_value=1, max_value=100)
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            if st.button("提交猜测"):
+                st.session_state.attempts += 1
+                if guess == st.session_state.challenge_number:
+                    st.success(f"恭喜你找到了最佳创新指数！你用了{st.session_state.attempts}次尝试。")
+                    st.session_state.game_over = True
+                elif guess < st.session_state.challenge_number:
+                    st.warning("创新度不够，再大胆一些！")
+                    st.session_state.hints.append(f"第{st.session_state.attempts}次：{guess} - 创新度不够")
+                else:
+                    st.warning("创新过头了，需要更务实一些！")
+                    st.session_state.hints.append(f"第{st.session_state.attempts}次：{guess} - 创新过头了")
+        
+        with col2:
+            if st.button("获取灵感"):
+                inspiration = random.choice([
+                    "想想未来科技可能带来的改变。",
+                    "考虑如何将不同领域的知识结合起来。",
+                    "关注用户的痛点，寻找创新的机会。",
+                    "大胆假设，小心求证。",
+                    "有时候，减法比加法更能带来创新。"
+                ])
+                st.info(f"灵感：{inspiration}")
+        
+        with col3:
+            if st.button("重新挑战"):
+                st.session_state.challenge_number = random.randint(1, 100)
+                st.session_state.attempts = 0
+                st.session_state.hints = []
+                st.session_state.game_over = False
+                st.experimental_rerun()
+
+    # 显示历史记录
+    if st.session_state.hints:
+        st.markdown("### 创新历程")
+        for hint in st.session_state.hints:
+            st.write(hint)
+
+    # 显示创新排行榜
+    st.markdown("### 创新排行榜")
+    leaderboard = {
+        "爱因斯坦": 3,
+        "特斯拉": 4,
+        "乔布斯": 5,
+        "马斯克": 6
+    }
+    for name, score in leaderboard.items():
+        st.write(f"{name}: {score}次尝试")
+
+    # 提供一些创新建议
+    st.markdown("### 创新小贴士")
+    st.write("1. 保持好奇心，不断学习新知识。")
+    st.write("2. 勇于挑战常规，尝试不同的思路。")
+    st.write("3. 与团队合作，集思广益。")
+    st.write("4. 关注用户需求，以解决问题为导向。")
+    st.write("5. 拥抱失败，从错误中学习。")
+
+def change_theme():
+    themes = {
+        "默认": {"primary": "#1E90FF", "secondary": "#4682B4", "background": "#f0f2f6"},
+        "深邃夜空": {"primary": "#4DA8DA", "secondary": "#89CFF0", "background": "#2C3E50"},
+        "森林绿意": {"primary": "#2ecc71", "secondary": "#27ae60", "background": "#f1f8e9"},
+        "温暖阳光": {"primary": "#f39c12", "secondary": "#f1c40f", "background": "#fff5e6"}
+    }
+    
+    selected_theme = st.sidebar.selectbox("选择主题", list(themes.keys()))
+    
+    theme = themes[selected_theme]
+    st.markdown(f"""
+    <style>
+        :root {{
+            --primary-color: {theme['primary']};
+            --secondary-color: {theme['secondary']};
+            --background-color: {theme['background']};
+        }}
+    </style>
+    """, unsafe_allow_html=True)
+
 # 主函数
 def main():
+    change_theme()  # 在侧边栏添加主题选择
     page = sidebar()
     
     if page == "主页":
@@ -344,6 +522,17 @@ def main():
         show_knowledge_base()
     elif page == "加入我们":
         show_join()
+    elif page == "实时协作":
+        show_collaboration()
+    elif page == "AI助手":
+        show_ai_assistant()
+    elif page == "数据仪表板":
+        show_dashboard()
+    elif page == "创新挑战":
+        innovation_challenge()
+    
+    # 在每个页面底部添加猜数字游戏
+    guess_number_game()
 
 if __name__ == "__main__":
     main()
