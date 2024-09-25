@@ -187,44 +187,20 @@ def show_home():
     st.markdown("""
     <style>
     .stApp {
-        background-color: white;
-        position: relative;
-        overflow: hidden;
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
     }
-    .stApp::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        right: -50%;
-        bottom: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
-        z-index: -1;
-        animation: modernBackground 20s linear infinite;
-    }
-    @keyframes modernBackground {
+    @keyframes gradient {
         0% {
-            transform: rotate(0deg);
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
         }
         100% {
-            transform: rotate(360deg);
+            background-position: 0% 50%;
         }
-    }
-    .stApp::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-        z-index: -1;
-    }
-    .main-header, .sub-header {
-        position: relative;
-        z-index: 1;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -238,7 +214,7 @@ def show_home():
     }
     .typing-effect {
         overflow: hidden;
-        border-right: .15em solid #02ab21;
+        border-right: .15em solid orange;
         white-space: nowrap;
         margin: 0 auto;
         letter-spacing: .15em;
@@ -248,7 +224,7 @@ def show_home():
     }
     @keyframes blink-caret {
         from, to { border-color: transparent }
-        50% { border-color: #02ab21; }
+        50% { border-color: orange; }
     }
     </style>
     <h3 class="typing-effect">欢迎来到创新无限的世界</h3>
@@ -298,21 +274,19 @@ def show_home():
       position: absolute;
       width: 150px;
       height: 150px;
-      border: 2px solid #02ab21;
+      border: 2px solid #fff;
       line-height: 150px;
       font-size: 18px;
       font-weight: bold;
-      color: #02ab21;
+      color: #fff;
       text-align: center;
-      background: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 0 10px rgba(2, 171, 33, 0.3);
     }
-    .cube__face--front  { transform: rotateY(0deg) translateZ(75px); }
-    .cube__face--right  { transform: rotateY(90deg) translateZ(75px); }
-    .cube__face--back   { transform: rotateY(180deg) translateZ(75px); }
-    .cube__face--left   { transform: rotateY(-90deg) translateZ(75px); }
-    .cube__face--top    { transform: rotateX(90deg) translateZ(75px); }
-    .cube__face--bottom { transform: rotateX(-90deg) translateZ(75px); }
+    .cube__face--front  { background: hsla(0, 100%, 50%, 0.7); transform: rotateY(0deg) translateZ(75px); }
+    .cube__face--right  { background: hsla(60, 100%, 50%, 0.7); transform: rotateY(90deg) translateZ(75px); }
+    .cube__face--back   { background: hsla(120, 100%, 50%, 0.7); transform: rotateY(180deg) translateZ(75px); }
+    .cube__face--left   { background: hsla(180, 100%, 50%, 0.7); transform: rotateY(-90deg) translateZ(75px); }
+    .cube__face--top    { background: hsla(240, 100%, 50%, 0.7); transform: rotateX(90deg) translateZ(75px); }
+    .cube__face--bottom { background: hsla(300, 100%, 50%, 0.7); transform: rotateX(-90deg) translateZ(75px); }
     @keyframes rotate {
       from { transform: translateZ(-75px) rotateX(0deg) rotateY(0deg); }
       to { transform: translateZ(-75px) rotateX(360deg) rotateY(360deg); }
@@ -429,14 +403,14 @@ def show_home():
     st.markdown("""
     <style>
     .streamlit-expanderHeader {
-        background-color: #02ab21;
+        background-color: var(--primary-color);
         color: white;
         border-radius: 5px;
         padding: 10px;
         margin-bottom: 10px;
     }
     .streamlit-expanderContent {
-        background-color: rgba(2, 171, 33, 0.1);
+        background-color: rgba(255,255,255,0.1);
         border-radius: 5px;
         padding: 15px;
     }
@@ -470,14 +444,14 @@ def show_home():
     <p class="index-description">我们的创新指数反映了团队的创新活力和项目进展。</p>
     <style>
     .innovation-index {{
-        background: rgba(2, 171, 33, 0.1);
+        background: rgba(255,255,255,0.1);
         border-radius: 20px;
         height: 40px;
         position: relative;
         overflow: hidden;
     }}
     .index-value {{
-        background: linear-gradient(90deg, #02ab21, #04d92a);
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
         height: 100%;
         display: flex;
         align-items: center;
@@ -517,7 +491,7 @@ def show_home():
     .insight-card {
         display: flex;
         align-items: center;
-        background: rgba(2, 171, 33, 0.1);
+        background: rgba(255,255,255,0.1);
         border-radius: 10px;
         padding: 15px;
         margin-bottom: 15px;
@@ -530,7 +504,7 @@ def show_home():
     }
     .insight-content h4 {
         margin: 0;
-        color: #02ab21;
+        color: var(--primary-color);
     }
     .insight-content p {
         margin: 5px 0 0;
@@ -581,7 +555,7 @@ def show_home():
     </div>
     <style>
     .join-us {
-        background: linear-gradient(45deg, #02ab21, #04d92a);
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
         border-radius: 15px;
         padding: 30px;
         text-align: center;
@@ -590,7 +564,7 @@ def show_home():
     .join-button {
         display: inline-block;
         background: white;
-        color: #02ab21;
+        color: var(--primary-color);
         padding: 10px 20px;
         border-radius: 25px;
         text-decoration: none;
@@ -600,7 +574,7 @@ def show_home():
     }
     .join-button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(2, 171, 33, 0.2);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
     </style>
     """, unsafe_allow_html=True)
