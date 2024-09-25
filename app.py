@@ -226,11 +226,20 @@ def show_home():
     st.markdown("<h3 class='section-header'>实时公司指标</h3>", unsafe_allow_html=True)
     
     # 模拟实时数据
+    periods = 100
     df = pd.DataFrame({
-        'time': pd.date_range(start='2023-01-01', periods=100, freq='D'),
-        'users': np.random.randint(100, 1000, 100),
-        'revenue': np.random.randint(1000, 10000, 100)
+        'time': pd.date_range(start='2023-01-01', periods=periods, freq='D'),
+        'users': np.cumsum(np.random.normal(10, 5, periods)) + 100,
+        'revenue': np.cumsum(np.random.normal(100, 50, periods)) + 1000
     })
+    
+    # 添加一些波动
+    df['users'] += np.sin(np.arange(periods) * 0.2) * 50
+    df['revenue'] += np.sin(np.arange(periods) * 0.1) * 500
+    
+    # 确保数值为正
+    df['users'] = df['users'].clip(lower=0)
+    df['revenue'] = df['revenue'].clip(lower=0)
     
     chart = alt.Chart(df).transform_fold(
         ['users', 'revenue'],
