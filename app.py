@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 import pydeck as pdk
 from streamlit_webrtc import webrtc_streamer
 import av
-from streamlit_extras.stqdm import stqdm
 import time
 
 # 设置页面配置
@@ -394,13 +393,14 @@ def show_ai_assistant():
 def show_dashboard():
     st.markdown("<h1 class='main-header'>实时数据仪表板</h1>", unsafe_allow_html=True)
     
+    # 由于streamlit_extras.stqdm不可用，我们将使用st.progress来模拟进度条
     progress_bars = []
     for i in range(5):
-        progress_bars.append(stqdm(total=100, desc=f"指标 {i+1}"))
+        progress_bars.append(st.progress(0))
     
     for _ in range(100):
         for bar in progress_bars:
-            bar.update(random.randint(1, 5))
+            bar.progress(random.randint(1, 100))
         time.sleep(0.1)
 
 def innovation_challenge():
