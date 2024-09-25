@@ -182,28 +182,6 @@ def load_lottiefile(filepath: str):
 def show_home():
     st.markdown("<h1 class='main-header'>欢迎来到ModernHZ</h1>", unsafe_allow_html=True)
     st.markdown("<h2 class='sub-header'>创新无界，梦想无限</h2>", unsafe_allow_html=True)
-    
-    # 使用Streamlit实现动态背景效果
-    st.markdown("""
-    <style>
-    .stApp {
-        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-        background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
-    }
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-    </style>
-    """, unsafe_allow_html=True)
 
     # 添加动态文字效果
     st.markdown("""
@@ -234,13 +212,13 @@ def show_home():
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("### 创新")
-        st_lottie(load_lottiefile("path_to_innovation_lottie.json"), height=200)
+        st_lottie(load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_jtbfg2nb.json"), height=200)
     with col2:
         st.markdown("### 协作")
-        st_lottie(load_lottiefile("path_to_collaboration_lottie.json"), height=200)
+        st_lottie(load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_2wrjlrbz.json"), height=200)
     with col3:
         st.markdown("### 卓越")
-        st_lottie(load_lottiefile("path_to_excellence_lottie.json"), height=200)
+        st_lottie(load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_aao5ezov.json"), height=200)
     
     # 添加3D旋转立方体展示核心价值观
     st.markdown("""
