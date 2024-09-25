@@ -282,7 +282,7 @@ def show_knowledge_base():
     st.plotly_chart(fig)
 
     # 添加词云图
-    text = "AI 机器学习 深度学习 神经网络 自然语言处理 计算机视觉 强化学习 数据挖掘 数据 云计算"
+    text = "AI Machine_Learning Deep_Learning Neural_Networks Natural_Language_Processing Computer_Vision Reinforcement_Learning Data_Mining Big_Data Cloud_Computing Innovation Product_Development Team_Management Agile Scrum DevOps Blockchain IoT Artificial_Intelligence"
     wordcloud = WordCloud(width=800, height=400, background_color='white').generate(text)
 
     fig, ax = plt.subplots()
