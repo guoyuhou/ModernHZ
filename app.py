@@ -144,7 +144,6 @@ def sidebar():
         </style>
         """, unsafe_allow_html=True)
         
-        st.image("images/SpaceX-2.jpg", width=150)
         selected = option_menu(
             menu_title="ModernHZ导航",
             options=["主页", "团队介绍", "项目展示", "知识库", "加入我们", "实时协作", "AI助手", "数据仪表板", "创新挑战"],
