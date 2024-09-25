@@ -829,6 +829,9 @@ def change_theme():
 import streamlit as st
 import random
 
+import streamlit as st
+import random
+
 def welcome_screen():
     if 'name' not in st.session_state:
         st.session_state.name = ''
@@ -912,6 +915,17 @@ def welcome_screen():
         padding: 10px 15px;
         font-size: 16px;
     }}
+    .inspiration-quote {{
+        font-style: italic;
+        color: #555;
+        text-align: center;
+        margin-top: 30px;
+    }}
+    .innovation-icon {{
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 20px;
+    }}
     </style>
     <div class="star-container">{stars}</div>
     <div class="innovation-wave"></div>
@@ -920,6 +934,7 @@ def welcome_screen():
     if not st.session_state.name:
         st.markdown("<h1 class='welcome-header'>创新无界</h1>", unsafe_allow_html=True)
         st.markdown("<p class='welcome-subheader'>在ModernHZ，每个想法都是新世界的起点</p>", unsafe_allow_html=True)
+        st.markdown("<div class='innovation-icon'>🚀💡🌟</div>", unsafe_allow_html=True)
         
         name = st.text_input("请输入你的名字", key="welcome_input", max_chars=50)
         if st.button("开启你的创新之旅", key="welcome_button"):
@@ -928,12 +943,29 @@ def welcome_screen():
                 st.experimental_rerun()
             else:
                 st.warning("请输入你的名字")
+        
+        st.markdown("<p class='inspiration-quote'>\"创新是将想象力转化为现实的能力。\" —— 威廉·波拉德</p>", unsafe_allow_html=True)
     else:
         st.markdown(f"<h1 class='welcome-header'>欢迎回来，{st.session_state.name}</h1>", unsafe_allow_html=True)
         st.markdown("<p class='welcome-subheader'>你的下一个突破性想法，就在眼前</p>", unsafe_allow_html=True)
+        st.markdown("<div class='innovation-icon'>🌈🔬🎨</div>", unsafe_allow_html=True)
         
         if st.button("继续你的创新之旅", key="start_explore"):
             st.experimental_rerun()
+        
+        daily_inspirations = [
+            "今天，让我们挑战不可能！",
+            "创新始于问题，成于解决。",
+            "在平凡中发现非凡，在已知中探索未知。",
+            "每一次失败都是成功的铺垫。",
+            "创新不是目的地，而是一段永无止境的旅程。"
+        ]
+        st.markdown(f"<p class='inspiration-quote'>\"{random.choice(daily_inspirations)}\"</p>", unsafe_allow_html=True)
+
+    # 添加一个隐藏的按钮，用于重置用户名（仅用于测试目的）
+    if st.button("重置", key="reset_button", help="重置用户名（仅用于测试）"):
+        st.session_state.name = ''
+        st.experimental_rerun()
 # 主函数
 def main():
     if 'name' not in st.session_state or not st.session_state.name:
